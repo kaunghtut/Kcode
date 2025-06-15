@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <title>မြန်မာနိုင်ငံ မိုးလေဝသအခြေအနေ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Myanmar Text', Zawgyi-One, Padowmu, sans-serif;
+            background: #ECF5FF;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background: #3498db;
+            color: white;
+            padding: 1.2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+        header small {
+            font-size: 0.9em;
+        }
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        h2 {
+            color: #2c3e50; /* Darker blue for subheadings */
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .city-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem; /* Reduced gap slightly */
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .city {
+            background: #e0f7fa; /* Lighter, softer blue for city buttons */
+            color: #00796b; /* Teal color for text */
+            border: 1px solid #b2ebf2; /* Light border */
+            border-radius: 20px; /* More rounded
+            
+.button {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 30px;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px) saturate(120%);
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+        .city:hover {
+            background: #b2ebf2; /* Darker on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+        .weather-info {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa; /* Very light grey for info box */
+            border: 1px solid #e9ecef; /* Light border for info box */
+            border-radius: 8px;
+            text-align: left; /* Align text to left for better readability */
+        }
+        .weather-info h3 {
+            color: #3498db;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.5em;
+        }
+        .weather-info p {
+            margin: 0.6rem 0; /* Adjusted spacing for paragraphs */
+            line-height: 1.6;
+            color: #555;
+        }
+        .weather-info p strong {
+            color: #333;
+        }
+        .weather-info small {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #777;
+        }
+        .loader {
+            text-align: center;
+            padding: 1rem;
+            font-style: italic;
+        }
+        .error-message {
+            color: #e74c3c; /* Red for error messages */
+            font-weight: bold;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 1rem;
+                padding: 1rem 1.5rem;
+            }
+            header h1 {
+                font-size: 1.5em;
+            }
+            .city {
+                padding: 0.7rem 1rem;
+                min-width: 90px;
+            }
+            .weather-info h3 {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>မြန်မာနိုင်ငံ မိုးလေဝသအခြေအနေ</h1>
+        <small>Myanmar Weather Online</small>
+    </header>
+
+    <div class="container">
+        <h2>မြို့တစ်ခုရွေးချယ်ပါ</h2>
+        <div class="city-list">
+            <div class="city" onclick="showWeather('Yangon', 'ရန်ကုန်')">ရန်ကုန်</div>
+            <div class="city" onclick="showWeather('Mandalay', 'မန္တလေး')">မန္တလေး</div>
+            <div class="city" onclick="showWeather('Naypyidaw', 'နေပြည်တော်')">နေပြည်တော်</div>
+            <div class="city" onclick="showWeather('Taunggyi', 'တောင်ကြီး')">တောင်ကြီး</div>
+            <div class="city" onclick="showWeather('Pathein', 'ပုသိမ်')">ပုသိမ်</div>
+            <div class="city" onclick="showWeather('Mawlamyine', 'မော်လမြိုင်')">မော်လမြိုင်</div>
+        </div>
+
+        <div class="weather-info" id="weather-info">
+            <p style="text-align:center;">မြို့တစ်ခုကိုနှိပ်ပြီး မိုးလေဝသအချက်အလက်များ ကြည့်ရှုနိုင်ပါသည်။</p>
+        </div>
+    </div>
+
+    <script>
+        // ==============================================================================
+        // *** အရေးကြီး *** : သင့်ရဲ့ OpenWeatherMap API Key ကို ဒီနေရာမှာ ထည့်ပါ။  ***
+        // OpenWeatherMap Website (https://openweathermap.org/) မှာ အကောင့်ဖွင့်ပြီး
+        // API Key (ဥပမာ: 'abcdef1234567890abcdef1234567890') ကိုရယူပါ။
+        // ==============================================================================
+        const apiKey = '8951805e7b1d2bfd2b9afbba4e20dec7';
+
+
+        async function showWeather(cityEnglishName, cityMyanmarName) {
+            const weatherInfoDiv = document.getElementById('weather-info');
+            
+            if (!apiKey || apiKey === 'YOUR_OPENWEATHERMAP_API_KEY') {
+                weatherInfoDiv.innerHTML = `<p class="error-message">API Key လိုအပ်ပါသည်။ ကျေးဇူးပြု၍ API Key ကို code ထဲတွင် ထည့်သွင်းပါ။</p>`;
+                return;
+            }
+
+            weatherInfoDiv.innerHTML = `<p class="loader">${cityMyanmarName} အတွက် မိုးလေဝသအချက်အလက်များ ရယူနေပါသည်...</p>`;
+
+            // lang=my ကိုထည့်ထားပေမဲ့ API က မြန်မာလိုအပြည့်အဝ support မလုပ်နိုင်သေးပါ (description လောက်ပဲရနိုင်ပါတယ်)
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityEnglishName},MM&appid=${apiKey}&units=metric&lang=my`;
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    const errorData = await response.json(); // Error message from API
+                    let errorMessage = `အချက်အလက်များ ရယူရာတွင် ပြဿနာရှိပါသည်။ (Status: ${response.status})`;
+                    if (response.status === 401) {
+                         errorMessage = 'API Key မှားနေသည် သို့မဟုတ် ခွင့်ပြုချက်မရှိပါ။ API Key ကိုစစ်ဆေးပါ။';
+                    } else if (response.status === 404) {
+                         errorMessage = `${cityMyanmarName} မြို့အမည်အတွက် အချက်အလက်ရှာမတွေ့ပါ။`;
+                    } else if (errorData && errorData.message) {
+                        errorMessage = errorData.message;
+                    }
+                    throw new Error(errorMessage);
+                }
+                const data = await response.json();
+
+                const temperature = data.main.temp;
+                const feelsLike = data.main.feels_like;
+                const description = data.weather[0].description; // Usually in selected language if available
+                const mainWeather = data.weather[0].main; // e.g. "Rain", "Clouds"
+                const iconCode = data.weather[0].icon;
+                const humidity = data.main.humidity;
+                const windSpeed = data.wind.speed; // m/s
+                const pressure = data.main.pressure; // hPa
+                const visibility = data.visibility / 1000; // Convert meters to km
+
+                let rainInfo = '';
+                if (data.rain) {
+                    if (data.rain['1h']) {
+                        rainInfo = `<p><strong>မိုးရေချိန် (၁ နာရီ):</strong> ${data.rain['1h']} mm</p>`;
+                    } else if (data.rain['3h']) {
+                        rainInfo = `<p><strong>မိုးရေချိန် (၃ နာရီ):</strong> ${data.rain['3h']} mm</p>`;
+                    }
+                } else {
+                    // မိုးမရွာရင် ဒီစာကြောင်းကို မပြတော့ပါဘူး၊ description မှာ ပါနေနိုင်လို့ပါ။
+                    // rainInfo = `<p>လက်ရှိတွင် မိုးရွာသွန်းမှုမရှိပါ။</p>`;
+                }
+                
+                let snowInfo = '';
+                 if (data.snow) {
+                    if (data.snow['1h']) {
+                        snowInfo = `<p><strong>နှင်းကျနှုန်း (၁ နာရီ):</strong> ${data.snow['1h']} mm</p>`;
+                    } else if (data.snow['3h']) {
+                        snowInfo = `<p><strong>နှင်းကျနှုန်း (၃ နာရီ):</strong> ${data.snow['3h']} mm</p>`;
+                    }
+                }
+
+
+                weatherInfoDiv.innerHTML = `
+                    <h3>${cityMyanmarName} <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${description}" style="vertical-align: middle; width:50px; height:50px;"></h3>
+                    <p><strong>လက်ရှိအခြေအနေ:</strong> ${description} (${mainWeather})</p>
+                    <p><strong>အပူချိန်:</strong> ${temperature}°C</p>
+                    <p><strong>ခံစားရသည့်အပူချိန်:</strong> ${feelsLike}°C</p>
+                    ${rainInfo}
+                    ${snowInfo}
+                    <p><strong>စိုထိုင်းဆ:</strong> ${humidity}%</p>
+                    <p><strong>လေတိုက်နှုန်း:</strong> ${windSpeed} m/s</p>
+                    <p><strong>မြင်နိုင်စွမ်း:</strong> ${visibility.toFixed(1)} km</p>
+                    <p><strong>လေဖိအား:</strong> ${pressure} hPa</p>
+                    <p><small>အချက်အလက်များကို OpenWeatherMap မှရယူပါသည်။</small></p>
+                `;
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+                weatherInfoDiv.innerHTML = `<p class="error-message">မိုးလေဝသအချက်အလက်များ ရယူရာတွင် အမှားအယွင်းရှိပါသည်: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
