@@ -3,7 +3,7 @@
 // OpenWeatherMap Website (https://openweathermap.org/) မှာ အကောင့်ဖွင့်ပြီး
 // API Key (ဥပမာ: 'abcdef1234567890abcdef1234567890') ကိုရယူပါ။
 // ==============================================================================
-const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY'; // <--- API KEY ကို ဒီမှာထည့်ပါ
+const apiKey = '8951805e7b1d2bfd2b9afbba4e20dec7'; // <--- API KEY ကို ဒီမှာထည့်ပါ
 
 const currentWeatherDataDiv = document.getElementById('current-weather-info');
 const forecastInfoDiv = document.getElementById('forecast-info');
