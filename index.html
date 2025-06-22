@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <title>ကိုယ်ရေးအကျဉ်း</title>
+    <style>
+        /* အခြေခံ Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Myanmar3', sans-serif, Arial;
+            background: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .profile-pic {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin: 8px 0;
+        }
+
+        .bio {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .social-links ul {
+            list-style: none;
+            margin-top: 15px;
+            padding: 0;
+        }
+
+        .social-links li {
+            display: inline;
+            margin: 0 10px;
+        }
+
+        .social-links a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .social-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="profile-card">
+        <img src="https://via.placeholder.com/150"  alt="ပရိုဖိုင်ပုံ" class="profile-pic">
+        <h1>မင်းသူ</h1>
+        <p><strong>အသက်:</strong> ၂၅</p>
+        <p><strong>နေရပ်:</strong> ရန်ကုန်၊ မြန်မာ</p>
+        <p><strong>Email:</strong> <a href="mailto:minthu@example.com">minthu@example.com</a></p>
+
+        <div class="bio">
+            <h2>အကျဉ်းချုပ်</h2>
+            <p>ကျွန်တော်သည် Web Developer တစ်ဦးဖြစ်ပါသည်။ HTML, CSS, JavaScript နှင့် PHP တို့ကို စိတ်ဝင်စားပါသည်။</p>
+        </div>
+
+        <div class="social-links">
+            <h3>Social Media</h3>
+            <ul>
+                <li><a href="#" target="_blank">Facebook</a></li>
+                <li><a href="#" target="_blank">Instagram</a></li>
+                <li><a href="#" target="_blank">Twitter</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
