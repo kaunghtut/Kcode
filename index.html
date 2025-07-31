@@ -1,81 +1,270 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Forecast App</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Google Font (Padauk for Myanmar) -->
-    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <title>Payment Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+        h1 {
+            color: #005f73;
+            text-align: center;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        #payment-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        #payment-form input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        #payment-form button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        #payment-form button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dddfe2;
+        }
+        th {
+            background-color: #f5f6f7;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f5f6f7;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        .loader {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+            color: #606770;
+        }
+        .total {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="container my-5">
-        <div class="weather-wrapper mx-auto">
-            <h1 class="text-center mb-4">မိုးလေဝသ ခန့်မှန်းချက်</h1>
+    <div class="container">
+        <h1>📈 Payment Dashboard</h1>
 
-            <!-- Search Bar -->
-            <div class="input-group mb-3">
-                <input type="text" id="city-input" class="form-control" placeholder="မြို့အမည် ထည့်ပါ (ဥပမာ: Yangon)">
-                <button class="btn btn-primary" id="search-btn">ရှာဖွေရန်</button>
+        <div class="card">
+            <h2>Add New Payment</h2>
+            <form id="payment-form">
+                <input type="text" id="description" placeholder="Payment Description" required>
+                <input type="number" id="amount" placeholder="Amount (MMK)" required>
+                <button type="submit">Add Payment</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Payment History</h2>
+            <div id="payment-table-container">
+                <p id="loader" class="loader">Loading payments...</p>
+                <table id="payment-table" style="display:none;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount (MMK)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payment-list"></tbody>
+                </table>
+                 <p id="total-amount" class="total" style="display:none;"></p>
             </div>
-
-            <!-- Error Message Display -->
-            <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
-
-            <!-- Weather Information Card (Initially Hidden) -->
-            <div class="card d-none mb-4" id="weather-card">
-                <div class="card-body text-center">
-                    <h2 id="city-name" class="card-title"></h2>
-                    <img id="weather-icon" src="" alt="Weather Icon" class="my-3">
-                    <h3 id="temperature" class="display-4"></h3>
-                    <p id="description" class="lead"></p>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-4 col-6">
-                            <strong>စိုထိုင်းဆ</strong>
-                            <p><span id="humidity"></span>%</p>
-                        </div>
-                        <div class="col-md-4 col-6">
-                            <strong>လေတိုက်နှုန်း</strong>
-                            <p><span id="wind-speed"></span> m/s</p>
-                        </div>
-                        <div class="col-md-4 col-12">
-                            <strong>ဖိအား</strong>
-                            <p><span id="pressure"></span> hPa</p>
-                        </div>
-                    </div>
-                    <div class="row mt-3 sun-times">
-                        <div class="col">
-                            <strong>နေထွက်ချိန်</strong>
-                            <p id="sunrise-time"></p>
-                        </div>
-                        <div class="col">
-                            <strong>နေဝင်ချိန်</strong>
-                            <p id="sunset-time"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5-Day Forecast Section (Initially Hidden) -->
-            <div id="forecast-section" class="d-none">
-                <h3 class="text-center mb-3">၅ ရက်တာ ခန့်မှန်းချက်</h3>
-                <div class="row" id="forecast-container">
-                    <!-- Forecast cards will be injected here by JavaScript -->
-                </div>
-            </div>
-
         </div>
     </div>
 
-    <!-- Custom JavaScript -->
-    <script src="script.js"></script>
+    <script>
+        // !!! IMPORTANT !!!
+        // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxH_t2f6TIhA-xAh1C2_6TTVR5FfoeW3nLTB1T_8GLzVB9urkKiQAz01Dve2e0xXTtqoA/exec';
+
+        const paymentForm = document.getElementById('payment-form');
+        const paymentList = document.getElementById('payment-list');
+        const loader = document.getElementById('loader');
+        const paymentTable = document.getElementById('payment-table');
+        const totalAmountEl = document.getElementById('total-amount');
+
+        // Function to format numbers as MMK currency
+        const formatCurrencyMMK = (number) => {
+            return 'MMK ' + new Intl.NumberFormat('en-US').format(number);
+        };
+        
+        // Function to format timestamp to a readable date
+        const formatDate = (timestamp) => {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('en-CA'); // YYYY-MM-DD format
+        };
+
+        // Fetch and display payments
+        const getPayments = async () => {
+            loader.style.display = 'block';
+            paymentTable.style.display = 'none';
+            totalAmountEl.style.display = 'none';
+            
+            try {
+                const response = await fetch(WEB_APP_URL);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const payments = await response.json();
+                
+                paymentList.innerHTML = ''; // Clear existing list
+                let total = 0;
+
+                payments.sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp)); // Sort by newest first
+
+                payments.forEach(payment => {
+                    const row = document.createElement('tr');
+                    total += parseFloat(payment.Amount) || 0;
+                    
+                    row.innerHTML = `
+                        <td>${formatDate(payment.Timestamp)}</td>
+                        <td>${payment.Description}</td>
+                        <td>${formatCurrencyMMK(payment.Amount)}</td>
+                        <td><button class="delete-btn" data-id="${payment.ID}">Delete</button></td>
+                    `;
+                    paymentList.appendChild(row);
+                });
+                
+                totalAmountEl.innerText = `Total: ${formatCurrencyMMK(total)}`;
+
+            } catch (error) {
+                console.error('Error fetching payments:', error);
+                loader.innerText = 'Failed to load payments.';
+                return;
+            }
+
+            loader.style.display = 'none';
+            paymentTable.style.display = 'table';
+            totalAmountEl.style.display = 'block';
+        };
+
+        // Add a new payment
+        paymentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const descriptionInput = document.getElementById('description');
+            const amountInput = document.getElementById('amount');
+            const submitButton = paymentForm.querySelector('button');
+
+            const paymentData = {
+                description: descriptionInput.value,
+                amount: amountInput.value
+            };
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Adding...';
+
+            try {
+                const response = await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Use 'no-cors' to avoid CORS issues with simple redirects
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(paymentData)
+                });
+                
+                // Reset form and refresh list
+                descriptionInput.value = '';
+                amountInput.value = '';
+                
+            } catch (error) {
+                console.error('Error adding payment:', error);
+                alert('Failed to add payment.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Add Payment';
+                // Refresh list after a short delay to allow sheet to update
+                setTimeout(getPayments, 1000); 
+            }
+        });
+
+        // Delete a payment
+        paymentList.addEventListener('click', async (e) => {
+            if (e.target.classList.contains('delete-btn')) {
+                const id = e.target.dataset.id;
+                
+                if (confirm('Are you sure you want to delete this payment?')) {
+                    e.target.disabled = true;
+                    e.target.textContent = 'Deleting...';
+                    
+                    try {
+                        const deletePayload = { action: 'delete', id: id };
+                        const response = await fetch(WEB_APP_URL, {
+                           method: 'POST',
+                           mode: 'no-cors',
+                           headers: { 'Content-Type': 'application/json' },
+                           body: JSON.stringify(deletePayload)
+                        });
+                        
+                    } catch (error) {
+                        console.error('Error deleting payment:', error);
+                        alert('Failed to delete payment.');
+                    } finally {
+                        // Refresh list after a short delay
+                         setTimeout(getPayments, 1000);
+                    }
+                }
+            }
+        });
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', getPayments);
+    </script>
+
 </body>
 </html>
