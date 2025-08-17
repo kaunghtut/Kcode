@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // သင်၏ API Provider မှ ပေးထားသော Live Scores Endpoint URL ကို ဤနေရာတွင် ထည့်ပါ။
     // ဤ URL သည် ဥပမာတစ်ခုသာ ဖြစ်ပါသည်။
-    const apiUrl = 'https://api.football-data.org/v2/matches'; // Example URL
+    const apiUrl = 'http://api.football-data.org/v4/teams/759/matches'; // Example URL
 
     // API သို့ Request ပြုလုပ်ရန် Function
     async function fetchLiveScores() {
