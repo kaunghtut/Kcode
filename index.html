@@ -3,58 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Football Live Scores</title>
+    <title>Live Football Scores</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
             color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
         }
-        h1 {
-            color: #1d3557;
-        }
-        #scores-container {
-            width: 80%;
-            max-width: 800px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
-        .match {
-            border-bottom: 1px solid #ddd;
-            padding: 15px 0;
+        header {
+            background-color: #1a3e72;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            margin: 0;
+        }
+        .matches-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        .match-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+        .match-card:hover {
+            transform: translateY(-5px);
+        }
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        .teams {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .team {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .match:last-child {
-            border-bottom: none;
-        }
-        .team {
-            font-size: 1.2em;
+        .team-name {
             font-weight: bold;
         }
         .score {
-            font-size: 1.5em;
+            font-size: 18px;
             font-weight: bold;
-            color: #e63946;
+            color: #1a3e72;
         }
-        .status {
-            font-size: 0.9em;
-            color: #666;
+        .match-time {
+            text-align: center;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        .live-badge {
+            background-color: #e74c3c;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+        }
+        .league-header {
+            grid-column: 1 / -1;
+            background-color: #1a3e72;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Live Football Scores</h1>
-    <div id="scores-container">
+    <header>
+        <div class="container">
+            <h1>Live Football Scores</h1>
         </div>
+    </header>
+    
+    <div class="container">
+        <div id="matches-container" class="matches-container">
+            <div class="loading">Loading matches...</div>
+        </div>
+    </div>
 
-    <script src="app.js"></script>
+    <script>
+        // API configuration
+        const API_TOKEN = '10835ef493294644912b9db33e06cdf5';
+        const API_URL = 'https://api.football-data.org/v4/matches';
+        
+        // Fetch live matches
+        async function fetchLiveMatches() {
+            try {
+                const response = await fetch(API_URL, {
+                    headers: {
+                        'X-Auth-Token': API_TOKEN
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+                
+                const data = await response.json();
+                displayMatches(data.matches);
+            } catch (error) {
+                console.error('Error fetching matches:', error);
+                document.getElementById('matches-container').innerHTML = `
+                    <div class="loading" style="color: red;">
+                        Error loading matches. Please try again later.
+                    </div>
+                `;
+            }
+        }
+        
+        // Display matches in the UI
+        function displayMatches(matches) {
+            const container = document.getElementById('matches-container');
+            
+            if (!matches || matches.length === 0) {
+                container.innerHTML = `
+                    <div class="loading">
+                        No matches currently being played. Check back later!
+                    </div>
+                `;
+                return;
+            }
+            
+            // Group matches by competition
+            const matchesByCompetition = {};
+            matches.forEach(match => {
+                const compName = match.competition.name;
+                if (!matchesByCompetition[compName]) {
+                    matchesByCompetition[compName] = [];
+                }
+                matchesByCompetition[compName].push(match);
+            });
+            
+            // Clear loading message
+            container.innerHTML = '';
+            
+            // Create HTML for each competition and its matches
+            for (const [compName, compMatches] of Object.entries(matchesByCompetition)) {
+                // Competition header
+                const compHeader = document.createElement('div');
+                compHeader.className = 'league-header';
+                compHeader.textContent = compName;
+                container.appendChild(compHeader);
+                
+                // Matches for this competition
+                compMatches.forEach(match => {
+                    const matchCard = document.createElement('div');
+                    matchCard.className = 'match-card';
+                    
+                    const matchTime = new Date(match.utcDate).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    const status = match.status === 'IN_PLAY' ? 
+                        '<span class="live-badge">LIVE</span>' : 
+                        match.status.replace('_', ' ');
+                    
+                    matchCard.innerHTML = `
+                        <div class="match-header">
+                            <span>${matchTime}</span>
+                            <span>${status}</span>
+                        </div>
+                        <div class="teams">
+                            <div class="team">
+                                <span class="team-name">${match.homeTeam.name}</span>
+                                <span class="score">${match.score.fullTime.home ?? '-'}</span>
+                            </div>
+                            <div class="team">
+                                <span class="team-name">${match.awayTeam.name}</span>
+                                <span class="score">${match.score.fullTime.away ?? '-'}</span>
+                            </div>
+                        </div>
+                        <div class="match-time">
+                            ${match.minute ? `${match.minute}'` : ''}
+                        </div>
+                    `;
+                    
+                    container.appendChild(matchCard);
+                });
+            }
+        }
+        
+        // Initial load
+        fetchLiveMatches();
+        
+        // Refresh every 60 seconds
+        setInterval(fetchLiveMatches, 60000);
+    </script>
 </body>
 </html>
