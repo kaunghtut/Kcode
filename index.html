@@ -1,222 +1,454 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Football Scores</title>
+    <title>မြန်မာ 2D တိုက်ရိုက်ထွက်ရှိမှု | Myanmar 2D Live Results</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             color: #333;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-        header {
-            background-color: #1a3e72;
-            color: white;
-            padding: 20px 0;
+
+        .header {
             text-align: center;
             margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        h1 {
-            margin: 0;
-        }
-        .matches-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-        }
-        .match-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            padding: 15px;
-            transition: transform 0.2s;
-        }
-        .match-card:hover {
-            transform: translateY(-5px);
-        }
-        .match-header {
-            display: flex;
-            justify-content: space-between;
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
             margin-bottom: 10px;
-            font-size: 14px;
-            color: #666;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-        .teams {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+
+        .header .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
         }
-        .team {
+
+        .live-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .live-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
         }
-        .team-name {
-            font-weight: bold;
+
+        .live-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .score {
-            font-size: 18px;
-            font-weight: bold;
-            color: #1a3e72;
+
+        .live-indicator {
+            width: 12px;
+            height: 12px;
+            background: #e74c3c;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
-        .match-time {
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .server-time {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .current-result {
             text-align: center;
-            margin: 10px 0;
-            font-style: italic;
-        }
-        .live-badge {
-            background-color: #e74c3c;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
             color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 12px;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .current-number {
+            font-size: 4rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .current-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .detail-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.1rem;
             font-weight: bold;
         }
+
+        .history-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .history-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .history-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .history-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            gap: 20px;
+            align-items: center;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-time {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+
+        .history-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+            text-align: center;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-set {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .history-value {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
         .loading {
             text-align: center;
             padding: 50px;
-            font-size: 18px;
+            color: #7f8c8d;
         }
-        .league-header {
-            grid-column: 1 / -1;
-            background-color: #1a3e72;
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #e74c3c;
             color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin-top: 20px;
-            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .current-number {
+                font-size: 3rem;
+            }
+            
+            .history-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .refresh-btn {
+                bottom: 20px;
+                right: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Live Football Scores</h1>
-        </div>
-    </header>
-    
     <div class="container">
-        <div id="matches-container" class="matches-container">
-            <div class="loading">Loading matches...</div>
+        <header class="header">
+            <h1>🎯 မြန်မာ 2D တိုက်ရိုက်ထွက်ရှိမှု</h1>
+            <p class="subtitle">Myanmar 2D Live Results - Real Time Updates</p>
+        </header>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>ဒေတာများ တင်ဆောင်နေပါသည်...</p>
         </div>
+
+        <div id="content" style="display: none;">
+            <section class="live-section">
+                <div class="live-header">
+                    <h2 class="live-title">
+                        <span class="live-indicator"></span>
+                        လက်ရှိရလဒ် (Current Result)
+                    </h2>
+                    <div class="server-time" id="serverTime"></div>
+                </div>
+                
+                <div class="current-result" id="currentResult">
+                    <div class="current-number" id="currentNumber">--</div>
+                    <div class="current-details">
+                        <div class="detail-item">
+                            <div class="detail-label">SET Index</div>
+                            <div class="detail-value" id="currentSet">--</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">တန်ဖိုး (Value)</div>
+                            <div class="detail-value" id="currentValue">--</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">အချိန် (Time)</div>
+                            <div class="detail-value" id="currentTime">--</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">ရက်စွဲ (Date)</div>
+                            <div class="detail-value" id="currentDate">--</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="history-section">
+                <h2 class="history-title">📊 ယနေ့ရလဒ်မှတ်တမ်း (Today's Results History)</h2>
+                <div class="history-grid" id="historyGrid"></div>
+            </section>
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
     </div>
 
+    <button class="refresh-btn" onclick="fetchData()">
+        <span>🔄</span>
+        <span>အပ်ဒိတ်</span>
+    </button>
+
     <script>
-        // API configuration
-        const API_TOKEN = '10835ef493294644912b9db33e06cdf5';
-        const API_URL = 'https://api.football-data.org/v4/matches';
-        
-        // Fetch live matches
-        async function fetchLiveMatches() {
-            try {
-                const response = await fetch(API_URL, {
-                    headers: {
-                        'X-Auth-Token': API_TOKEN
-                    }
-                });
+        const API_URL = 'https://api.thaistock2d.com/live';
+        let isLoading = false;
+
+        function formatNumber(num) {
+            return parseFloat(num).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function formatTime(datetime) {
+            const date = new Date(datetime);
+            return date.toLocaleTimeString('en-US', {
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatDate(datetime) {
+            const date = new Date(datetime);
+            return date.toLocaleDateString('en-GB');
+        }
+
+        function displayCurrentResult(data) {
+            document.getElementById('currentNumber').textContent = data.live.twod;
+            document.getElementById('currentSet').textContent = formatNumber(data.live.set);
+            document.getElementById('currentValue').textContent = formatNumber(data.live.value);
+            document.getElementById('currentTime').textContent = formatTime(data.live.time);
+            document.getElementById('currentDate').textContent = formatDate(data.live.date);
+            document.getElementById('serverTime').textContent = `Server Time: ${data.server_time}`;
+        }
+
+        function displayHistory(results) {
+            const historyGrid = document.getElementById('historyGrid');
+            historyGrid.innerHTML = '';
+
+            results.reverse().forEach((result, index) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
                 
+                historyItem.innerHTML = `
+                    <div class="history-time">${result.open_time}</div>
+                    <div>
+                        <div class="history-set">SET: ${formatNumber(result.set)}</div>
+                        <div class="history-value">Value: ${formatNumber(result.value)}</div>
+                    </div>
+                    <div class="history-number">${result.twod}</div>
+                    <div style="text-align: right; color: #95a5a6; font-size: 0.8rem;">
+                        #${result.history_id}
+                    </div>
+                `;
+                
+                // Add animation delay for each item
+                historyItem.style.animationDelay = `${index * 0.1}s`;
+                historyGrid.appendChild(historyItem);
+            });
+        }
+
+        async function fetchData() {
+            if (isLoading) return;
+            
+            isLoading = true;
+            const refreshBtn = document.querySelector('.refresh-btn');
+            refreshBtn.style.opacity = '0.7';
+            refreshBtn.style.pointerEvents = 'none';
+
+            try {
+                const response = await fetch(API_URL);
                 if (!response.ok) {
-                    throw new Error(`API request failed with status ${response.status}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
                 const data = await response.json();
-                displayMatches(data.matches);
-            } catch (error) {
-                console.error('Error fetching matches:', error);
-                document.getElementById('matches-container').innerHTML = `
-                    <div class="loading" style="color: red;">
-                        Error loading matches. Please try again later.
-                    </div>
-                `;
-            }
-        }
-        
-        // Display matches in the UI
-        function displayMatches(matches) {
-            const container = document.getElementById('matches-container');
-            
-            if (!matches || matches.length === 0) {
-                container.innerHTML = `
-                    <div class="loading">
-                        No matches currently being played. Check back later!
-                    </div>
-                `;
-                return;
-            }
-            
-            // Group matches by competition
-            const matchesByCompetition = {};
-            matches.forEach(match => {
-                const compName = match.competition.name;
-                if (!matchesByCompetition[compName]) {
-                    matchesByCompetition[compName] = [];
-                }
-                matchesByCompetition[compName].push(match);
-            });
-            
-            // Clear loading message
-            container.innerHTML = '';
-            
-            // Create HTML for each competition and its matches
-            for (const [compName, compMatches] of Object.entries(matchesByCompetition)) {
-                // Competition header
-                const compHeader = document.createElement('div');
-                compHeader.className = 'league-header';
-                compHeader.textContent = compName;
-                container.appendChild(compHeader);
                 
-                // Matches for this competition
-                compMatches.forEach(match => {
-                    const matchCard = document.createElement('div');
-                    matchCard.className = 'match-card';
-                    
-                    const matchTime = new Date(match.utcDate).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
-                    
-                    const status = match.status === 'IN_PLAY' ? 
-                        '<span class="live-badge">LIVE</span>' : 
-                        match.status.replace('_', ' ');
-                    
-                    matchCard.innerHTML = `
-                        <div class="match-header">
-                            <span>${matchTime}</span>
-                            <span>${status}</span>
-                        </div>
-                        <div class="teams">
-                            <div class="team">
-                                <span class="team-name">${match.homeTeam.name}</span>
-                                <span class="score">${match.score.fullTime.home ?? '-'}</span>
-                            </div>
-                            <div class="team">
-                                <span class="team-name">${match.awayTeam.name}</span>
-                                <span class="score">${match.score.fullTime.away ?? '-'}</span>
-                            </div>
-                        </div>
-                        <div class="match-time">
-                            ${match.minute ? `${match.minute}'` : ''}
-                        </div>
-                    `;
-                    
-                    container.appendChild(matchCard);
-                });
+                displayCurrentResult(data);
+                displayHistory(data.result);
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+                document.getElementById('error').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('error').textContent = `ဒေတာ ရယူ၍မရပါ: ${error.message}`;
+            } finally {
+                isLoading = false;
+                refreshBtn.style.opacity = '1';
+                refreshBtn.style.pointerEvents = 'auto';
             }
         }
-        
+
+        // Auto refresh every 30 seconds
+        setInterval(fetchData, 30000);
+
         // Initial load
-        fetchLiveMatches();
-        
-        // Refresh every 60 seconds
-        setInterval(fetchLiveMatches, 60000);
+        fetchData();
+
+        // Add some CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            .history-item {
+                animation: slideIn 0.6s ease-out forwards;
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            @keyframes slideIn {
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
