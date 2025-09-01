@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>အလုပ်ရက် မှတ်တမ်း Dashboard</title>
+    <title>အလုပ်ချိန် မှတ်တမ်း Dashboard</title>
     <style>
         body {
             font-family: 'Padauk', 'Helvetica', 'Arial', sans-serif;
@@ -13,7 +13,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
         .container {
             background-color: white;
@@ -31,13 +31,20 @@
         .form-group {
             margin-bottom: 20px;
         }
+        .time-group {
+            display: flex;
+            gap: 15px;
+        }
+        .time-group .form-group {
+            flex: 1;
+        }
         label {
             display: block;
             margin-bottom: 8px;
             color: #555;
             font-weight: bold;
         }
-        input[type="date"], textarea {
+        input[type="date"], input[type="time"], textarea {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
@@ -68,22 +75,30 @@
             margin-top: 20px;
             font-weight: bold;
         }
-        .success {
-            color: #28a745;
-        }
-        .error {
-            color: #dc3545;
-        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>အလုပ်ရက် မှတ်တမ်း Dashboard</h1>
+        <h1>အလုပ်ချိန် မှတ်တမ်း Dashboard</h1>
         <form id="workLogForm">
             <div class="form-group">
                 <label for="workDate">ရက်စွဲ</label>
                 <input type="date" id="workDate" name="workDate" required>
             </div>
+            
+            <div class="time-group">
+                <div class="form-group">
+                    <label for="startTime">အလုပ်စချိန်</label>
+                    <input type="time" id="startTime" name="startTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="endTime">အလုပ်ပြီးချိန်</label>
+                    <input type="time" id="endTime" name="endTime" required>
+                </div>
+            </div>
+            
             <div class="form-group">
                 <label for="notes">မှတ်ချက်</label>
                 <textarea id="notes" name="notes" placeholder="ဒီနေ့ လုပ်ဆောင်ခဲ့သော အဓိကအလုပ်များ..."></textarea>
@@ -95,7 +110,7 @@
 
     <script>
         // ဒီနေရာမှာ သင့်ရဲ့ Google Apps Script Web App URL ကိုထည့်ပါ
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyL4ySfdT5LtgVaSQVCpGTNcV-PbooUkFiF4zchpVkYyjr7AzKRkV6GSYSeHSWZa9PO/exec'; 
+        const WEB_APP_URL = 'YOUR_WEB_APP_URL_HERE'; 
 
         const form = document.getElementById('workLogForm');
         const messageDiv = document.getElementById('message');
@@ -105,32 +120,33 @@
         document.getElementById('workDate').valueAsDate = new Date();
 
         form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Form ကို default submit မလုပ်အောင် တားဆီးခြင်း
+            e.preventDefault();
 
             submitButton.disabled = true;
             submitButton.innerText = 'ပို့နေသည်...';
             messageDiv.textContent = '';
+            messageDiv.className = '';
 
             const formData = new FormData(form);
             const data = {
                 date: formData.get('workDate'),
+                startTime: formData.get('startTime'),
+                endTime: formData.get('endTime'),
                 notes: formData.get('notes')
             };
 
             fetch(WEB_APP_URL, {
                 method: 'POST',
                 body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8', // Apps Script က text/plain ကိုပဲ လက်ခံတာမို့ပါ
-                },
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             })
             .then(response => response.json())
             .then(result => {
                 if (result.result === 'success') {
                     messageDiv.textContent = 'မှတ်တမ်းတင်ခြင်း အောင်မြင်ပါသည်။';
                     messageDiv.className = 'success';
-                    form.reset(); // Form ကို ရှင်းလင်းခြင်း
-                    document.getElementById('workDate').valueAsDate = new Date(); // ရက်စွဲကို ပြန်ဖြည့်ခြင်း
+                    form.reset();
+                    document.getElementById('workDate').valueAsDate = new Date();
                 } else {
                     throw new Error(result.error || 'Unknown error occurred.');
                 }
