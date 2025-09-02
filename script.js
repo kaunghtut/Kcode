@@ -1,6 +1,6 @@
 // =========================================================================
 // === ဒီနေရာမှာ သင် Deploy လုပ်လို့ရလာတဲ့ Web App URL ကို ထည့်ပေးပါ ===
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzbWsh5rXMe7QJxF-w8ELWqy9Y7lxZ1B9cimmxilitbO1Xw4wP8rg_BqKI4i_VKcDfh/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz9jnt2DraDfI_lxnL4IWmOwBBF9nH54LTrkaVNadhGfRFtM5p3-UvQeISVQ_NUTuQN/exec';
 // =========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
