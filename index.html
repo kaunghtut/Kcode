@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Log - Entry</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <header class="header-section">
+            <h1>Welcome to Your Work Log</h1>
+            <p>Enter your daily work details to keep track.</p>
+        </header>
+
+        <main class="form-section">
+            <h2>Log Entry</h2>
+            <p class="subtitle">Fill in the details for today's work.</p>
+            
+            <form id="workLogForm">
+                <div class="input-group">
+                    <label for="workDate">Date</label>
+                    <input type="date" id="workDate" required>
+                </div>
+                 <div class="input-group">
+                    <label for="startTime">Start Time</label>
+                    <input type="time" id="startTime" required>
+                </div>
+                 <div class="input-group">
+                    <label for="endTime">End Time</label>
+                    <input type="time" id="endTime" required>
+                </div>
+                <div class="input-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" rows="3" placeholder="What did you work on?"></textarea>
+                </div>
+                <button type="submit" class="btn">Log In</button>
+            </form>
+            <div id="formMessage"></div>
+            <p class="bottom-link">
+                <a href="dashboard.html">View Dashboard</a>
+            </p>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
