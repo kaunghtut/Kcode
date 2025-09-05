@@ -1,211 +1,99 @@
-/* Google Font Import: Inter */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-/* CSS Variables */
-:root {
-    --background: #0F172A; /* Dark Blue */
-    --surface: #1E293B;   /* Lighter Dark Blue */
-    --primary: #0EA5E9;   /* Bright Blue */
-    --on-surface: #CBD5E1; /* Light Gray Text */
-    --on-surface-strong: #F1F5F9; /* White Text */
-    --border-color: #334155;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-}
-
+/* style.css */
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: var(--background);
-    color: var(--on-surface);
-}
-
-.main-container {
-    width: 100%;
-    max-width: 420px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
     padding: 20px;
 }
 
-.header-section {
-    text-align: center;
-    margin-bottom: 40px;
+.hidden {
+    display: none;
 }
 
-.header-section h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--on-surface-strong);
-    margin-bottom: 8px;
-}
-
-.header-section p {
-    font-size: 1rem;
-    color: var(--on-surface);
-}
-
-.form-section, .dashboard-section {
-    background-color: var(--surface);
-    padding: 32px;
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-}
-
-.form-section h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--on-surface-strong);
-    margin-bottom: 8px;
-}
-
-.form-section .subtitle {
-    margin-bottom: 24px;
-}
-
-.input-group {
-    margin-bottom: 20px;
-}
-
-.input-group label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 500;
-    margin-bottom: 8px;
-    color: var(--on-surface);
-}
-
-.input-group input, .input-group textarea {
-    width: 100%;
-    padding: 12px 16px;
-    background-color: var(--background);
-    border: 1px solid var(--border-color);
+#auth-container, #app-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
     border-radius: 8px;
-    color: var(--on-surface-strong);
-    font-size: 1rem;
-}
-.input-group input:focus, .input-group textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.btn {
-    width: 100%;
-    padding: 12px;
-    background-color: var(--primary);
-    border: none;
-    border-radius: 8px;
-    color: var(--on-surface-strong);
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
-}
-.btn:hover {
-    background-color: #0284c7; /* Darker Blue */
-}
-
-.bottom-link {
-    text-align: center;
-    margin-top: 24px;
-    font-size: 0.875rem;
-}
-.bottom-link a {
-    color: var(--primary);
-    font-weight: 500;
-    text-decoration: none;
-}
-.bottom-link a:hover {
-    text-decoration: underline;
-}
-
-#formMessage {
-    text-align: center;
-    margin-top: 16px;
-    font-weight: 500;
-}
-
-/* Dashboard Table Styles */
-.dashboard-header {
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-}
-.btn-secondary {
-    background-color: transparent;
-    border: 1px solid var(--border-color);
-    padding: 8px 16px;
-    width: auto;
-}
-.btn-secondary:hover {
-    background-color: var(--border-color);
-}
-.table-container {
-    width: 100%;
-    overflow-x: auto;
-}
-#logTable {
-    width: 100%;
-    border-collapse: collapse;
-}
-#logTable th, #logTable td {
-    padding: 12px 10px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
-    font-size: 0.875rem;
-}
-#logTable thead th {
-    color: var(--on-surface-strong);
-    font-weight: 600;
-}
-#logTable tbody tr:last-child td {
-    border-bottom: none;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
 }
 
-/* Responsive Table for Mobile */
-@media (max-width: 480px) {
-    .form-section, .dashboard-section {
-        padding: 24px;
-    }
-    #logTable thead {
-        display: none;
-    }
-    #logTable, #logTable tbody, #logTable tr, #logTable td {
-        display: block;
-        width: 100%;
-    }
-    #logTable tr {
-        margin-bottom: 15px;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        padding: 10px;
-    }
-    #logTable td {
-        text-align: right;
-        padding-left: 50%;
-        position: relative;
-        border-bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-    }
-    #logTable td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 10px;
-        width: calc(50% - 20px);
-        text-align: left;
-        font-weight: bold;
-        color: var(--on-surface-strong);
-    }
+h1, h2, h3 {
+    color: #0056b3;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#logoutBtn {
+    width: auto;
+    background-color: #dc3545;
+}
+
+#dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    background: #e9ecef;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.card p {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+}
+
+#transaction-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#transaction-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+#transaction-list li.income span:last-child {
+    color: green;
+}
+
+#transaction-list li.expense span:last-child {
+    color: red;
 }
