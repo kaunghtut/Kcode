@@ -1,47 +1,77 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work Log - Entry</title>
+    <title>ဝင်ငွေထွက်ငွေစာရင်း</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main-container">
-        <header class="header-section">
-            <h1>Welcome to Your Work Log</h1>
-            <p>Enter your daily work details to keep track.</p>
+
+    <div id="auth-container">
+        <h2>Login / Register</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginBtn">Login</button>
+        <button id="registerBtn">Register</button>
+    </div>
+
+    <div id="app-container" class="hidden">
+        <header>
+            <h1>လစဉ်စာရင်းရှင်းတမ်း</h1>
+            <button id="logoutBtn">Logout</button>
         </header>
 
-        <main class="form-section">
-            <h2>Log Entry</h2>
-            <p class="subtitle">Fill in the details for today's work.</p>
-            
-            <form id="workLogForm">
-                <div class="input-group">
-                    <label for="workDate">Date</label>
-                    <input type="date" id="workDate" required>
-                </div>
-                 <div class="input-group">
-                    <label for="startTime">Start Time</label>
-                    <input type="time" id="startTime" required>
-                </div>
-                 <div class="input-group">
-                    <label for="endTime">End Time</label>
-                    <input type="time" id="endTime" required>
-                </div>
-                <div class="input-group">
-                    <label for="notes">Notes</label>
-                    <textarea id="notes" rows="3" placeholder="What did you work on?"></textarea>
-                </div>
-                <button type="submit" class="btn">Send</button>
+        <div id="dashboard">
+            <div class="card">
+                <h3>စုစုပေါင်းဝင်ငွေ</h3>
+                <p id="total-income">$0.00</p>
+            </div>
+            <div class="card">
+                <h3>စုစုပေါင်းထွက်ငွေ</h3>
+                <p id="total-expense">$0.00</p>
+            </div>
+            <div class="card">
+                <h3>လက်ကျန်ငွေ</h3>
+                <p id="balance">$0.00</p>
+            </div>
+        </div>
+
+        <div id="add-transaction-container">
+            <h3>စာရင်းသစ်ထည့်ရန်</h3>
+            <form id="transaction-form">
+                <input type="text" id="description" placeholder="အကြောင်းအရာ" required>
+                <input type="number" id="amount" placeholder="ငွေပမာဏ" required>
+                <select id="type">
+                    <option value="income">ဝင်ငွေ</option>
+                    <option value="expense">ထွက်ငွေ</option>
+                </select>
+                <input type="date" id="date" required>
+                <button type="submit">စာရင်းသွင်းမည်</button>
             </form>
-            <div id="formMessage"></div>
-            <p class="bottom-link">
-                <a href="about.html">View Dashboard</a>
-            </p>
-        </main>
+        </div>
+
+        <div id="transaction-list-container">
+            <h3>လတ်တလော စာရင်းများ</h3>
+            <ul id="transaction-list">
+                </ul>
+        </div>
     </div>
+
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyAzKkS67tVX8VXa51K_xvWrjzAj95SZte8",
+          authDomain: "my-finance-tracker-68ffc.firebaseapp.com",
+          // ... ကျန်တဲ့ key တွေထည့်ပါ
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+    </script>
     <script src="script.js"></script>
+    
 </body>
 </html>
