@@ -1,99 +1,138 @@
-// =========================================================================
-// === ဒီနေရာမှာ သင် Deploy လုပ်လို့ရလာတဲ့ Web App URL ကို ထည့်ပေးပါ ===
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz9jnt2DraDfI_lxnL4IWmOwBBF9nH54LTrkaVNadhGfRFtM5p3-UvQeISVQ_NUTuQN/exec';
-// =========================================================================
+// script.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    const authContainer = document.getElementById('auth-container');
+    const appContainer = document.getElementById('app-container');
+    
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
 
-    // --- Logic for index.html (Data Entry Page) ---
-    const workLogForm = document.getElementById('workLogForm');
-    if (workLogForm) {
-        // Set default date to today
-        document.getElementById('workDate').valueAsDate = new Date();
+    const transactionForm = document.getElementById('transaction-form');
+    const transactionList = document.getElementById('transaction-list');
+    
+    const totalIncomeEl = document.getElementById('total-income');
+    const totalExpenseEl = document.getElementById('total-expense');
+    const balanceEl = document.getElementById('balance');
 
-        // Handle form submission
-        workLogForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const submitButton = workLogForm.querySelector('button');
-            const messageDiv = document.getElementById('formMessage');
-            
-            submitButton.disabled = true;
-            submitButton.textContent = 'Logging...';
-            messageDiv.textContent = '';
+    let currentUserId = null;
 
-            const data = {
-                date: document.getElementById('workDate').value,
-                startTime: document.getElementById('startTime').value,
-                endTime: document.getElementById('endTime').value,
-                notes: document.getElementById('notes').value
-            };
+    // Check user auth state
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            currentUserId = user.uid;
+            authContainer.classList.add('hidden');
+            appContainer.classList.remove('hidden');
+            fetchTransactions(new Date()); // Fetch current month's data
+        } else {
+            currentUserId = null;
+            authContainer.classList.remove('hidden');
+            appContainer.classList.add('hidden');
+        }
+    });
 
-            fetch(WEB_APP_URL, {
-                method: 'POST',
-                body: JSON.stringify(data),
-                redirect: 'follow',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    // Register
+    registerBtn.addEventListener('click', () => {
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                console.log('Registered:', userCredential.user);
             })
-            .then(response => response.json())
-            .then(result => {
-                if (result.result === 'success') {
-                    messageDiv.textContent = 'Log submitted successfully!';
-                    messageDiv.style.color = '#22c55e'; // Green
-                    workLogForm.reset();
-                    document.getElementById('workDate').valueAsDate = new Date();
-                } else {
-                    throw new Error(result.error);
-                }
+            .catch(error => alert(error.message));
+    });
+
+    // Login
+    loginBtn.addEventListener('click', () => {
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        auth.signInWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                console.log('Logged in:', userCredential.user);
             })
-            .catch(error => {
-                messageDiv.textContent = 'Error: ' + error.message;
-                messageDiv.style.color = '#ef4444'; // Red
-            })
-            .finally(() => {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Log In';
+            .catch(error => alert(error.message));
+    });
+
+    // Logout
+    logoutBtn.addEventListener('click', () => {
+        auth.signOut();
+    });
+
+    // Add transaction
+    transactionForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const description = document.getElementById('description').value;
+        const amount = parseFloat(document.getElementById('amount').value);
+        const type = document.getElementById('type').value;
+        const date = document.getElementById('date').value;
+
+        if (!description || !amount || !date || !currentUserId) return;
+
+        db.collection('transactions').add({
+            userId: currentUserId,
+            description,
+            amount,
+            type,
+            date: new Date(date),
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then(() => {
+            transactionForm.reset();
+            fetchTransactions(new Date(date));
+        })
+        .catch(error => console.error("Error adding document: ", error));
+    });
+
+    // Fetch and display transactions
+    function fetchTransactions(date) {
+        if (!currentUserId) return;
+
+        const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+        const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+        db.collection('transactions')
+            .where('userId', '==', currentUserId)
+            .where('date', '>=', startOfMonth)
+            .where('date', '<=', endOfMonth)
+            .orderBy('date', 'desc')
+            .onSnapshot(snapshot => {
+                transactionList.innerHTML = '';
+                let totalIncome = 0;
+                let totalExpense = 0;
+
+                snapshot.docs.forEach(doc => {
+                    const transaction = doc.data();
+                    const li = document.createElement('li');
+                    li.classList.add(transaction.type);
+                    
+                    const transactionDate = transaction.date.toDate().toLocaleDateString('en-CA'); // YYYY-MM-DD
+                    
+                    li.innerHTML = `
+                        <span>${transaction.description} (${transactionDate})</span>
+                        <span>${transaction.type === 'income' ? '+' : '-'}$${transaction.amount.toFixed(2)}</span>
+                    `;
+                    transactionList.appendChild(li);
+
+                    if (transaction.type === 'income') {
+                        totalIncome += transaction.amount;
+                    } else {
+                        totalExpense += transaction.amount;
+                    }
+                });
+                
+                updateDashboard(totalIncome, totalExpense);
             });
-        });
     }
 
-    // --- Logic for dashboard.html (Data Display Page) ---
-    const logTableBody = document.getElementById('logTableBody');
-    if (logTableBody) {
-        const refreshBtn = document.getElementById('refreshBtn');
-        
-        const fetchData = () => {
-            logTableBody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
-
-            fetch(`${WEB_APP_URL}?page=data`)
-                .then(response => response.json())
-                .then(data => {
-                    logTableBody.innerHTML = ''; // Clear loading message
-                    if (data.length === 0) {
-                        logTableBody.innerHTML = '<tr><td colspan="5">No data available.</td></tr>';
-                    } else {
-                        data.reverse().forEach(row => {
-                            const tr = document.createElement('tr');
-                            // Use data-label for responsive table CSS
-                            tr.innerHTML = `
-                                <td data-label="Date">${row[1]}</td>
-                                <td data-label="Start">${row[2]}</td>
-                                <td data-label="End">${row[3]}</td>
-                                <td data-label="Duration">${row[4]}</td>
-                                <td data-label="Notes">${row[5]}</td>
-                            `;
-                            logTableBody.appendChild(tr);
-                        });
-                    }
-                })
-                .catch(error => {
-                    logTableBody.innerHTML = `<tr><td colspan="5" style="color: #ef4444;">Error: ${error.message}</td></tr>`;
-                });
-        };
-
-        // Fetch data when page loads
-        fetchData();
-        
-        // Add event listener to refresh button
-        refreshBtn.addEventListener('click', fetchData);
+    // Update Dashboard UI
+    function updateDashboard(income, expense) {
+        const balance = income - expense;
+        totalIncomeEl.textContent = `$${income.toFixed(2)}`;
+        totalExpenseEl.textContent = `$${expense.toFixed(2)}`;
+        balanceEl.textContent = `$${balance.toFixed(2)}`;
     }
 });
