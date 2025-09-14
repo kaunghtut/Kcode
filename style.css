@@ -1,19 +1,19 @@
-/* New UI Design: Classic & Elegant Theme
-  - Uses a warmer, parchment-like background color.
-  - Employs serif fonts (Merriweather) for a classic, literary feel.
-  - Single-column layout for a more focused reading experience.
-  - Subtle borders and dividers instead of heavy shadows.
+/* UI Update: Added expandable/collapsible poem text box.
+  - The poem text is initially truncated using max-height and overflow:hidden.
+  - A subtle fade-out effect is added to indicate there is more text.
+  - A "Read More" button is added.
+  - A new '.expanded' class, toggled by JavaScript, reveals the full text.
 */
 
-/* Google Font Import (already in HTML, but good practice to note) */
+/* Google Font Import (from HTML) */
 /* font-family: 'Merriweather', serif; */
 /* font-family: 'Padauk', sans-serif; */
 
-/* General Styling */
+/* General Styling (No change) */
 body {
-    font-family: 'Padauk', sans-serif; /* Default font for Burmese text */
-    background-color: #fdf6e3; /* A warm, parchment-like color */
-    color: #4a4a4a; /* A softer, dark charcoal color */
+    font-family: 'Padauk', sans-serif;
+    background-color: #fdf6e3;
+    color: #4a4a4a;
     line-height: 1.8;
     margin: 0;
     padding: 0;
@@ -25,7 +25,7 @@ body {
     padding: 20px 40px;
 }
 
-/* Header Styling */
+/* Header Styling (No change) */
 header {
     text-align: center;
     padding-bottom: 20px;
@@ -48,33 +48,32 @@ header {
     font-style: italic;
 }
 
-/* Poem Container */
+/* Poem Container (No change) */
 #poem-container {
     display: flex;
     flex-direction: column;
-    gap: 60px; /* Increased gap between poems */
+    gap: 60px;
 }
 
-/* Individual Poem Card - Changed from a 'card' to a 'section' feel */
+/* Individual Poem Card (No change) */
 .poem-card {
-    background: transparent; /* No card background */
-    border: none; /* No border around the card */
+    background: transparent;
+    border: none;
     padding: 0;
-    box-shadow: none; /* Removed shadow */
-    border-bottom: 1px solid #e0d8c6; /* Subtle separator line */
+    box-shadow: none;
+    border-bottom: 1px solid #e0d8c6;
     padding-bottom: 30px;
+    text-align: center; /* Center align all content including the button */
 }
 
 .poem-card:last-child {
-    border-bottom: none; /* Remove border for the last poem */
+    border-bottom: none;
 }
-
 
 .poem-title {
     font-family: 'Merriweather', serif;
     font-size: 2.2em;
     font-weight: 700;
-    text-align: center;
     margin-top: 0;
     margin-bottom: 15px;
     color: #2c3e50;
@@ -84,21 +83,73 @@ header {
     font-size: 1.2em;
     color: #a08a6c;
     font-style: italic;
-    text-align: center;
     margin-top: -10px;
     margin-bottom: 30px;
 }
 
+/* --- NEW and MODIFIED STYLES START HERE --- */
+
+/* Container for the poem lines to apply max-height and fade effect */
+.poem-lines-container {
+    max-height: 150px; /* Initial height, adjust as needed */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.7s ease-in-out;
+    margin-bottom: 20px;
+}
+
+/* Fade-out effect at the bottom when text is collapsed */
+.poem-lines-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, #fdf6e3);
+    pointer-events: none; /* Allows clicking through the gradient */
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Expanded state for the container */
+.poem-lines-container.expanded {
+    max-height: 1000px; /* A large value to show all content */
+}
+
+.poem-lines-container.expanded::after {
+    opacity: 0; /* Hide the fade effect when expanded */
+}
+
 .poem-lines {
-    font-family: 'Merriweather', serif; /* Classic font for poem text */
+    font-family: 'Merriweather', serif;
     white-space: pre-wrap;
     font-size: 1.15em;
     text-align: center;
-    line-height: 2; /* Increased line height for readability */
+    line-height: 2;
     color: #4a4a4a;
+    padding: 0 10px; /* Add some padding */
 }
 
-/* Footer Styling */
+/* "Read More" button styling */
+.read-more-btn {
+    font-family: 'Padauk', sans-serif;
+    background-color: #a08a6c;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.read-more-btn:hover {
+    background-color: #856f4e;
+}
+
+/* --- NEW and MODIFIED STYLES END HERE --- */
+
+/* Footer Styling (No change) */
 footer {
     text-align: center;
     margin-top: 60px;
@@ -108,7 +159,7 @@ footer {
     font-size: 0.9em;
 }
 
-/* Responsive Design */
+/* Responsive Design (No change) */
 @media (max-width: 600px) {
     .site-container {
         padding: 15px 20px;
@@ -122,3 +173,4 @@ footer {
         font-size: 1.8em;
     }
 }
+
