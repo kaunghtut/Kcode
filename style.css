@@ -1,59 +1,124 @@
+/* New UI Design: Classic & Elegant Theme
+  - Uses a warmer, parchment-like background color.
+  - Employs serif fonts (Merriweather) for a classic, literary feel.
+  - Single-column layout for a more focused reading experience.
+  - Subtle borders and dividers instead of heavy shadows.
+*/
+
+/* Google Font Import (already in HTML, but good practice to note) */
+/* font-family: 'Merriweather', serif; */
+/* font-family: 'Padauk', sans-serif; */
+
 /* General Styling */
 body {
-    font-family: 'Padauk', 'Myanmar Text', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
+    font-family: 'Padauk', sans-serif; /* Default font for Burmese text */
+    background-color: #fdf6e3; /* A warm, parchment-like color */
+    color: #4a4a4a; /* A softer, dark charcoal color */
+    line-height: 1.8;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
+.site-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 40px;
+}
+
+/* Header Styling */
 header {
     text-align: center;
-    margin-bottom: 40px;
+    padding-bottom: 20px;
+    margin-bottom: 50px;
+    border-bottom: 2px solid #d2c8b3;
 }
 
-h1 {
-    color: #444;
+.main-title {
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
+    font-size: 3em;
+    color: #3d3d3d;
+    margin: 0;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    color: #856f4e;
+    margin-top: 5px;
+    font-style: italic;
 }
 
 /* Poem Container */
 #poem-container {
-    max-width: 800px;
-    margin: 0 auto;
-    display: grid;
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px; /* Increased gap between poems */
 }
 
-/* Individual Poem Card */
+/* Individual Poem Card - Changed from a 'card' to a 'section' feel */
 .poem-card {
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 25px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+    background: transparent; /* No card background */
+    border: none; /* No border around the card */
+    padding: 0;
+    box-shadow: none; /* Removed shadow */
+    border-bottom: 1px solid #e0d8c6; /* Subtle separator line */
+    padding-bottom: 30px;
 }
 
-.poem-card:hover {
-    transform: translateY(-5px);
+.poem-card:last-child {
+    border-bottom: none; /* Remove border for the last poem */
 }
+
 
 .poem-title {
-    font-size: 1.8em;
+    font-family: 'Merriweather', serif;
+    font-size: 2.2em;
+    font-weight: 700;
+    text-align: center;
     margin-top: 0;
+    margin-bottom: 15px;
     color: #2c3e50;
 }
 
 .poem-author {
-    font-size: 1.1em;
-    color: #7f8c8d;
+    font-size: 1.2em;
+    color: #a08a6c;
     font-style: italic;
+    text-align: center;
     margin-top: -10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .poem-lines {
-    white-space: pre-wrap; /* This preserves line breaks */
-    font-size: 1.1em;
+    font-family: 'Merriweather', serif; /* Classic font for poem text */
+    white-space: pre-wrap;
+    font-size: 1.15em;
+    text-align: center;
+    line-height: 2; /* Increased line height for readability */
+    color: #4a4a4a;
+}
+
+/* Footer Styling */
+footer {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid #e0d8c6;
+    color: #999;
+    font-size: 0.9em;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .site-container {
+        padding: 15px 20px;
+    }
+
+    .main-title {
+        font-size: 2.2em;
+    }
+
+    .poem-title {
+        font-size: 1.8em;
+    }
 }
