@@ -5,19 +5,19 @@
     "author": "Robert Frost",
     "content": "Two roads diverged in a yellow wood,\nAnd sorry I could not travel both\nAnd be one traveler, long I stood\nAnd looked down one as far as I could\nTo where it bent in the undergrowth;",
     "year": "1916"
-  }
+  },
   {
     "id": 2,
     "title": "I Wandered Lonely as a Cloud",
     "author": "William Wordsworth",
     "content": "I wandered lonely as a cloud\nThat floats on high o'er vales and hills,\nWhen all at once I saw a crowd,\nA host, of golden daffodils;\nBeside the lake, beneath the trees,\nFluttering and dancing in the breeze.",
     "year": "1807"
-  }
+  },
   {
     "id": 3,
     "title": "Hope is the thing with feathers",
     "author": "Emily Dickinson",
     "content": "Hope is the thing with feathers\nThat perches in the soul,\nAnd sings the tune without the words,\nAnd never stops at all.",
     "year": "1861"
-  }
-]//
+  },
+]
