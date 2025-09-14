@@ -3,51 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ကဗျာစုစည်းမှု</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- CSS ဖိုင်ကို ချိတ်ဆက်ခြင်း -->
+    <title>မြန်မာကဗျာများ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Padauk&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div class="site-container">
+    <div class="container">
         <header>
-            <h1 class="main-title">ကဗျာ ကမ္ဘာ</h1>
-            <p class="subtitle">စိတ်ဝိညာဉ်ရဲ့ စကားသံများ</p>
+            <h1>မြန်မာကဗျာများ</h1>
+            <p class="description">ထင်ရှားသော မြန်မာကဗျာများကို စုစည်းတင်ဆက်ထားပါသည်</p>
         </header>
-    
-        <!-- Main viewer container for poem and side buttons -->
-        <div class="poem-viewer-container">
-            <!-- Previous Button -->
-            <button id="prev-btn" class="nav-btn">‹</button>
 
-            <!-- Poem Display Area -->
-            <main id="poem-display-area">
-                <!-- JavaScript will inject a single poem card here -->
-            </main>
-
-            <!-- Next Button -->
-            <button id="next-btn" class="nav-btn">›</button>
+        <div class="search-container">
+            <input type="text" id="search" placeholder="ကဗျာများကို ရှာဖွေရန်...">
         </div>
 
-        <!-- Poem Counter -->
-        <div class="poem-counter-container">
-            <p id="poem-counter"></p>
+        <div class="poems-container" id="poems-container">
+            <!-- Poems will be loaded here by JavaScript -->
         </div>
-
-        <footer>
-            <p>&copy; 2025 - My Poem Collection</p>
-        </footer>
     </div>
 
-    <!-- JavaScript ဖိုင် -->
-    <script src="script.js"></script>
+    <div class="modal" id="poem-modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-modal">&times;</span>
+            <div class="full-poem" id="full-poem"></div>
+        </div>
+    </div>
 
+    <footer>
+        <p>ကဗျာဝဘ်ဆိုဒ် - မြန်မာ့ရိုးရာ စာပေလက်ရာများ</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
-
