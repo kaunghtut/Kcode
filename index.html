@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ကဗျာစုစည်းမှု</title>
     
-    <!-- Google Fonts for better typography -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
@@ -21,18 +21,26 @@
             <p class="subtitle">စိတ်ဝိညာဉ်ရဲ့ စကားသံများ</p>
         </header>
     
-        <main id="poem-container">
-            <!-- ကဗျာတွေ ဒီနေရာမှာ JavaScript နဲ့ ထည့်ပါမယ် -->
+        <!-- ကဗျာတစ်ပုဒ်တည်းကိုသာ ပြမယ့်နေရာ -->
+        <main id="poem-display-area">
+            <!-- JavaScript will inject a single poem card here -->
         </main>
+
+        <!-- Navigation Controls -->
+        <div class="navigation-controls">
+            <button id="prev-btn" class="nav-btn">ယခင် ကဗျာ</button>
+            <p id="poem-counter"></p>
+            <button id="next-btn" class="nav-btn">နောက် ကဗျာ</button>
+        </div>
 
         <footer>
             <p>&copy; 2025 - My Poem Collection</p>
         </footer>
     </div>
 
-
-    <!-- JavaScript ဖိုင်ကို ချိတ်ဆက်ခြင်း (body မပိတ်ခင်ထားပါ) -->
+    <!-- JavaScript ဖိုင် -->
     <script src="script.js"></script>
 
 </body>
 </html>
+
