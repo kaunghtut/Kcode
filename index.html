@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Poem Collection</title>
+  <title>My Poem Collection — Slide Show</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,16 +13,26 @@
   </header>
 
   <main>
-    <div class="poem-filter">
-      <select id="authorFilter">
-        <option value="">All Authors</option>
-      </select>
-      <button id="randomBtn">Random Poem</button>
+    <!-- Slide Show Container -->
+    <div class="poem-slider">
+      <div class="slides-container">
+        <!-- Slides will be loaded by JavaScript -->
+        <div class="slide">
+          <p>Loading poems...</p>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <button class="nav-btn prev-btn">←</button>
+      <button class="nav-btn next-btn">→</button>
+
+      <!-- Dots Indicators -->
+      <div class="dots-container"></div>
     </div>
 
-    <div id="poemContainer" class="poem-container">
-      <!-- Poems will be loaded here by JavaScript -->
-      <p>Loading poems...</p>
+    <!-- Random Button (Optional) -->
+    <div style="text-align: center; margin-top: 30px;">
+      <button id="randomBtn">✨ Random Poem</button>
     </div>
   </main>
 
