@@ -21,16 +21,23 @@
             <p class="subtitle">စိတ်ဝိညာဉ်ရဲ့ စကားသံများ</p>
         </header>
     
-        <!-- ကဗျာတစ်ပုဒ်တည်းကိုသာ ပြမယ့်နေရာ -->
-        <main id="poem-display-area">
-            <!-- JavaScript will inject a single poem card here -->
-        </main>
+        <!-- Main viewer container for poem and side buttons -->
+        <div class="poem-viewer-container">
+            <!-- Previous Button -->
+            <button id="prev-btn" class="nav-btn">‹</button>
 
-        <!-- Navigation Controls -->
-        <div class="navigation-controls">
-            <button id="prev-btn" class="nav-btn">ယခင် ကဗျာ</button>
+            <!-- Poem Display Area -->
+            <main id="poem-display-area">
+                <!-- JavaScript will inject a single poem card here -->
+            </main>
+
+            <!-- Next Button -->
+            <button id="next-btn" class="nav-btn">›</button>
+        </div>
+
+        <!-- Poem Counter -->
+        <div class="poem-counter-container">
             <p id="poem-counter"></p>
-            <button id="next-btn" class="nav-btn">နောက် ကဗျာ</button>
         </div>
 
         <footer>
