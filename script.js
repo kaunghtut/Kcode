@@ -1,96 +1,81 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // DOM Elements
-    const poemDisplayArea = document.getElementById('poem-display-area');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const poemCounter = document.getElementById('poem-counter');
+// DOM elements
+const poemsContainer = document.getElementById('poems-container');
+const poemModal = document.getElementById('poem-modal');
+const fullPoemElement = document.getElementById('full-poem');
+const closeModalBtn = document.getElementById('close-modal');
+const searchInput = document.getElementById('search');
 
-    // State variables
-    let poems = [];
-    let currentIndex = 0;
+let poemsData = [];
 
-    // Function to display a poem based on the current index
-    function displayPoem() {
-        // Clear the previous poem
-        poemDisplayArea.innerHTML = '';
+// Fetch poems from JSON file
+fetch('poems.json')
+    .then(response => response.json())
+    .then(data => {
+        poemsData = data.poems;
+        displayPoems(poemsData);
+    })
+    .catch(error => {
+        console.error('Error loading poems:', error);
+        poemsContainer.innerHTML = '<p>ကဗျာများကို ဖတ်ရှုရန် ပြဿနာရှိနေပါသည်။</p>';
+    });
 
-        // Check if there are any poems
-        if (poems.length === 0) {
-            poemDisplayArea.innerHTML = '<p>ကဗျာများ မတွေ့ရှိပါ</p>';
-            return;
-        }
-
-        const poem = poems[currentIndex];
-
-        // --- Build the poem card (same logic as before) ---
+// Display poems
+function displayPoems(poems) {
+    poemsContainer.innerHTML = '';
+    
+    poems.forEach(poem => {
         const poemCard = document.createElement('div');
-        poemCard.classList.add('poem-card');
-
-        const titleElement = document.createElement('h2');
-        titleElement.classList.add('poem-title');
-        titleElement.textContent = poem.title;
-
-        const authorElement = document.createElement('h3');
-        authorElement.classList.add('poem-author');
-        authorElement.textContent = `~ ${poem.author}`;
-
-        const poemLinesContainer = document.createElement('div');
-        poemLinesContainer.classList.add('poem-lines-container');
-
-        const linesElement = document.createElement('p');
-        linesElement.classList.add('poem-lines');
-        linesElement.textContent = poem.lines.join('\n');
-        poemLinesContainer.appendChild(linesElement);
-
-        const readMoreBtn = document.createElement('button');
-        readMoreBtn.classList.add('read-more-btn');
-        readMoreBtn.textContent = 'ဆက်ဖတ်မည်';
-        readMoreBtn.addEventListener('click', () => {
-            poemLinesContainer.classList.toggle('expanded');
-            readMoreBtn.textContent = poemLinesContainer.classList.contains('expanded') ? 'ပြန်ခეცရန်' : 'ဆက်ဖတ်မည်';
+        poemCard.className = 'poem-card';
+        
+        poemCard.innerHTML = `
+            <div class="poem-header">
+                <h3 class="poem-title">${poem.title}</h3>
+                <p class="poem-author">${poem.author}</p>
+            </div>
+            <div class="poem-content">${poem.content}</div>
+            <a class="view-more" data-id="${poem.id}">ဆက်ဖတ်ရန်</a>
+        `;
+        
+        poemsContainer.appendChild(poemCard);
+    });
+    
+    // Add event listeners to "View More" buttons
+    document.querySelectorAll('.view-more').forEach(button => {
+        button.addEventListener('click', function() {
+            const poemId = parseInt(this.getAttribute('data-id'));
+            showFullPoem(poemId);
         });
+    });
+}
 
-        poemCard.appendChild(titleElement);
-        poemCard.appendChild(authorElement);
-        poemCard.appendChild(poemLinesContainer);
-        poemCard.appendChild(readMoreBtn);
-        // --- End of poem card building ---
-
-        // Append the new card to the display area
-        poemDisplayArea.appendChild(poemCard);
-
-        // Update the counter
-        poemCounter.textContent = `${currentIndex + 1} / ${poems.length}`;
+// Show full poem in modal
+function showFullPoem(poemId) {
+    const poem = poemsData.find(p => p.id === poemId);
+    if (poem) {
+        fullPoemElement.textContent = poem.content;
+        poemModal.style.display = 'block';
     }
+}
 
-    // Event Listeners for navigation buttons
-    nextBtn.addEventListener('click', () => {
-        // Move to the next index, loop back to 0 if at the end
-        currentIndex = (currentIndex + 1) % poems.length;
-        displayPoem();
-    });
-
-    prevBtn.addEventListener('click', () => {
-        // Move to the previous index, loop to the end if at the beginning
-        currentIndex = (currentIndex - 1 + poems.length) % poems.length;
-        displayPoem();
-    });
-
-    // Fetch poems data and initialize the first poem
-    fetch('poems.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            poems = data; // Store all poems in the array
-            displayPoem(); // Display the first poem initially
-        })
-        .catch(error => {
-            console.error('Error fetching poem data:', error);
-            poemDisplayArea.innerHTML = '<p>ကဗျာများကို ဖတ်ရှုရာတွင် အမှားအယွင်း ဖြစ်ပေါ်နေပါသည်။</p>';
-        });
+// Close modal
+closeModalBtn.addEventListener('click', function() {
+    poemModal.style.display = 'none';
 });
 
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+    if (event.target === poemModal) {
+        poemModal.style.display = 'none';
+    }
+});
+
+// Search functionality
+searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const filteredPoems = poemsData.filter(poem => 
+        poem.title.toLowerCase().includes(searchTerm) || 
+        poem.author.toLowerCase().includes(searchTerm) ||
+        poem.content.toLowerCase().includes(searchTerm)
+    );
+    displayPoems(filteredPoems);
+});
