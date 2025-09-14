@@ -1,44 +1,67 @@
 document.addEventListener('DOMContentLoaded', () => {
     const poemContainer = document.getElementById('poem-container');
 
-    // poems.json ဖိုင်ကို fetch လုပ်ပြီး data ယူခြင်း
     fetch('poems.json')
         .then(response => {
-            // response က OK (status 200) ဖြစ်မဖြစ် စစ်ဆေးခြင်း
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
-            return response.json(); // JSON data ကို parse လုပ်ခြင်း
+            return response.json();
         })
         .then(poems => {
-            // ရလာတဲ့ poems array ကို loop ပတ်ပြီး HTML ထဲ ထည့်ခြင်း
             poems.forEach(poem => {
-                // ကဗျာတစ်ပုဒ်ချင်းစီအတွက် card element ဆောက်ခြင်း
+                // Create the main card element
                 const poemCard = document.createElement('div');
                 poemCard.classList.add('poem-card');
 
-                // ခေါင်းစဉ်အတွက် h2 element ဆောက်ခြင်း
+                // Create title
                 const titleElement = document.createElement('h2');
                 titleElement.classList.add('poem-title');
                 titleElement.textContent = poem.title;
 
-                // ရေးသူအတွက် h3 element ဆောက်ခြင်း
+                // Create author
                 const authorElement = document.createElement('h3');
                 authorElement.classList.add('poem-author');
                 authorElement.textContent = `~ ${poem.author}`;
 
-                // ကဗျာစာသားအတွက် p element ဆောက်ခြင်း
+                // Create a container for the poem lines for collapsing effect
+                const poemLinesContainer = document.createElement('div');
+                poemLinesContainer.classList.add('poem-lines-container');
+
+                // Create the paragraph for poem lines
                 const linesElement = document.createElement('p');
                 linesElement.classList.add('poem-lines');
-                // lines array ကို join('\n') နဲ့ စာကြောင်းအသစ်တွေနဲ့ ဆက်ပေးခြင်း
                 linesElement.textContent = poem.lines.join('\n');
 
-                // ဆောက်ထားတဲ့ element တွေကို poemCard ထဲ ထည့်ခြင်း
+                // Append lines to its container
+                poemLinesContainer.appendChild(linesElement);
+
+                // Create the "Read More" button
+                const readMoreBtn = document.createElement('button');
+                readMoreBtn.classList.add('read-more-btn');
+                readMoreBtn.textContent = 'ဆက်ဖတ်မည်';
+                
+                // Add click event listener to the button
+                readMoreBtn.addEventListener('click', () => {
+                    // Toggle the 'expanded' class on the container
+                    poemLinesContainer.classList.toggle('expanded');
+
+                    // Change the button text based on the state
+                    if (poemLinesContainer.classList.contains('expanded')) {
+                        readMoreBtn.textContent = 'ပြန်ခეცရန်';
+                    } else {
+                        readMoreBtn.textContent = 'ဆက်ဖတ်မည်';
+                    }
+                });
+
+
+                // Append all elements to the poem card
                 poemCard.appendChild(titleElement);
                 poemCard.appendChild(authorElement);
-                poemCard.appendChild(linesElement);
+                poemCard.appendChild(poemLinesContainer);
+                poemCard.appendChild(readMoreBtn);
 
-                // ပြည့်စုံသွားတဲ့ poemCard ကို container ထဲ ထည့်ခြင်း
+                // Append the complete card to the main container
                 poemContainer.appendChild(poemCard);
             });
         })
