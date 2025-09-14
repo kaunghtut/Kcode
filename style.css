@@ -1,13 +1,8 @@
-/* UI Update: Added expandable/collapsible poem text box.
-  - The poem text is initially truncated using max-height and overflow:hidden.
-  - A subtle fade-out effect is added to indicate there is more text.
-  - A "Read More" button is added.
-  - A new '.expanded' class, toggled by JavaScript, reveals the full text.
+/* UI Update: Changed to a single poem viewer with navigation.
+  - The main container now displays only one poem at a time.
+  - Added styles for "Previous" and "Next" navigation buttons.
+  - Added style for the poem counter.
 */
-
-/* Google Font Import (from HTML) */
-/* font-family: 'Merriweather', serif; */
-/* font-family: 'Padauk', sans-serif; */
 
 /* General Styling (No change) */
 body {
@@ -17,160 +12,100 @@ body {
     line-height: 1.8;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .site-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px 40px;
+    flex: 1; /* Makes the container grow to fill available space */
 }
 
 /* Header Styling (No change) */
 header {
     text-align: center;
     padding-bottom: 20px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     border-bottom: 2px solid #d2c8b3;
 }
 
-.main-title {
-    font-family: 'Merriweather', serif;
-    font-weight: 700;
-    font-size: 3em;
-    color: #3d3d3d;
-    margin: 0;
-}
+.main-title { font-family: 'Merriweather', serif; font-weight: 700; font-size: 3em; color: #3d3d3d; margin: 0; }
+.subtitle { font-size: 1.1em; color: #856f4e; margin-top: 5px; font-style: italic; }
 
-.subtitle {
-    font-size: 1.1em;
-    color: #856f4e;
-    margin-top: 5px;
-    font-style: italic;
-}
-
-/* Poem Container (No change) */
-#poem-container {
+/* Poem Display Area */
+#poem-display-area {
+    min-height: 300px; /* Give it a minimum height to avoid layout shifts */
     display: flex;
-    flex-direction: column;
-    gap: 60px;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Individual Poem Card (No change) */
+/* Individual Poem Card (Slight adjustments) */
 .poem-card {
     background: transparent;
-    border: none;
     padding: 0;
     box-shadow: none;
-    border-bottom: 1px solid #e0d8c6;
-    padding-bottom: 30px;
-    text-align: center; /* Center align all content including the button */
-}
-
-.poem-card:last-child {
-    border-bottom: none;
-}
-
-.poem-title {
-    font-family: 'Merriweather', serif;
-    font-size: 2.2em;
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: #2c3e50;
-}
-
-.poem-author {
-    font-size: 1.2em;
-    color: #a08a6c;
-    font-style: italic;
-    margin-top: -10px;
-    margin-bottom: 30px;
-}
-
-/* --- NEW and MODIFIED STYLES START HERE --- */
-
-/* Container for the poem lines to apply max-height and fade effect */
-.poem-lines-container {
-    max-height: 150px; /* Initial height, adjust as needed */
-    overflow: hidden;
-    position: relative;
-    transition: max-height 0.7s ease-in-out;
-    margin-bottom: 20px;
-}
-
-/* Fade-out effect at the bottom when text is collapsed */
-.poem-lines-container::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 80px;
-    background: linear-gradient(to bottom, transparent, #fdf6e3);
-    pointer-events: none; /* Allows clicking through the gradient */
-    transition: opacity 0.5s ease-in-out;
-}
-
-/* Expanded state for the container */
-.poem-lines-container.expanded {
-    max-height: 1000px; /* A large value to show all content */
-}
-
-.poem-lines-container.expanded::after {
-    opacity: 0; /* Hide the fade effect when expanded */
-}
-
-.poem-lines {
-    font-family: 'Merriweather', serif;
-    white-space: pre-wrap;
-    font-size: 1.15em;
     text-align: center;
-    line-height: 2;
-    color: #4a4a4a;
-    padding: 0 10px; /* Add some padding */
+    width: 100%;
 }
 
-/* "Read More" button styling */
-.read-more-btn {
-    font-family: 'Padauk', sans-serif;
-    background-color: #a08a6c;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+.poem-title { font-family: 'Merriweather', serif; font-size: 2.2em; font-weight: 700; margin-top: 0; margin-bottom: 15px; color: #2c3e50; }
+.poem-author { font-size: 1.2em; color: #a08a6c; font-style: italic; margin-top: -10px; margin-bottom: 30px; }
 
-.read-more-btn:hover {
-    background-color: #856f4e;
-}
+/* Poem text expand/collapse styles (No change) */
+.poem-lines-container { max-height: 150px; overflow: hidden; position: relative; transition: max-height 0.7s ease-in-out; margin-bottom: 20px; }
+.poem-lines-container::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 80px; background: linear-gradient(to bottom, transparent, #fdf6e3); pointer-events: none; transition: opacity 0.5s ease-in-out; }
+.poem-lines-container.expanded { max-height: 1000px; }
+.poem-lines-container.expanded::after { opacity: 0; }
+.poem-lines { font-family: 'Merriweather', serif; white-space: pre-wrap; font-size: 1.15em; text-align: center; line-height: 2; color: #4a4a4a; padding: 0 10px; }
+.read-more-btn { font-family: 'Padauk', sans-serif; background-color: #a08a6c; color: #ffffff; border: none; border-radius: 5px; padding: 10px 20px; font-size: 1em; cursor: pointer; transition: background-color 0.3s ease; }
+.read-more-btn:hover { background-color: #856f4e; }
 
-/* --- NEW and MODIFIED STYLES END HERE --- */
-
-/* Footer Styling (No change) */
-footer {
-    text-align: center;
-    margin-top: 60px;
+/* --- NEW STYLES for Navigation --- */
+.navigation-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
     padding-top: 20px;
     border-top: 1px solid #e0d8c6;
-    color: #999;
-    font-size: 0.9em;
 }
 
-/* Responsive Design (No change) */
+.nav-btn {
+    font-family: 'Padauk', sans-serif;
+    background: transparent;
+    border: 1px solid #a08a6c;
+    color: #856f4e;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: #a08a6c;
+    color: #ffffff;
+}
+
+#poem-counter {
+    font-family: 'Merriweather', serif;
+    font-size: 1.2em;
+    color: #a08a6c;
+}
+
+/* Footer Styling (No change) */
+footer { text-align: center; margin-top: 40px; padding: 20px 0; color: #999; font-size: 0.9em; }
+
+/* Responsive Design */
 @media (max-width: 600px) {
-    .site-container {
-        padding: 15px 20px;
-    }
-
-    .main-title {
-        font-size: 2.2em;
-    }
-
-    .poem-title {
-        font-size: 1.8em;
-    }
+    .site-container { padding: 15px 20px; }
+    .main-title { font-size: 2.2em; }
+    .poem-title { font-size: 1.8em; }
+    .navigation-controls { flex-direction: column; gap: 15px; }
+    .nav-btn { width: 100%; }
 }
 
