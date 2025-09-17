@@ -1,81 +1,80 @@
-// DOM elements
-const poemsContainer = document.getElementById('poems-container');
-const poemModal = document.getElementById('poem-modal');
-const fullPoemElement = document.getElementById('full-poem');
-const closeModalBtn = document.getElementById('close-modal');
-const searchInput = document.getElementById('search');
+// Fetch poems and dividers from JSON and render them
+async function loadPoems() {
+    try {
+        const response = await fetch('poems.json');
+        const poemsData = await response.json();
+        const container = document.getElementById('poems-container');
 
-let poemsData = [];
+        poemsData.forEach(item => {
+            let element;
 
-// Fetch poems from JSON file
-fetch('poems.json')
-    .then(response => response.json())
-    .then(data => {
-        poemsData = data.poems;
-        displayPoems(poemsData);
-    })
-    .catch(error => {
-        console.error('Error loading poems:', error);
-        poemsContainer.innerHTML = '<p>ကဗျာများကို ဖတ်ရှုရန် ပြဿနာရှိနေပါသည်။</p>';
-    });
+            if (item.type === 'divider') {
+                element = document.createElement('div');
+                element.className = 'divider';
+                element.textContent = item.content;
+            } else if (item.type === 'poem') {
+                element = document.createElement('div');
+                element.className = 'piece';
 
-// Display poems
-function displayPoems(poems) {
-    poemsContainer.innerHTML = '';
-    
-    poems.forEach(poem => {
-        const poemCard = document.createElement('div');
-        poemCard.className = 'poem-card';
-        
-        poemCard.innerHTML = `
-            <div class="poem-header">
-                <h3 class="poem-title">${poem.title}</h3>
-                <p class="poem-author">${poem.author}</p>
-            </div>
-            <div class="poem-content">${poem.content}</div>
-            <a class="view-more" data-id="${poem.id}">ဆက်ဖတ်ရန်</a>
-        `;
-        
-        poemsContainer.appendChild(poemCard);
-    });
-    
-    // Add event listeners to "View More" buttons
-    document.querySelectorAll('.view-more').forEach(button => {
-        button.addEventListener('click', function() {
-            const poemId = parseInt(this.getAttribute('data-id'));
-            showFullPoem(poemId);
+                const title = document.createElement('h2');
+                title.className = 'piece-title';
+                title.textContent = item.title;
+
+                const author = document.createElement('span');
+                author.className = 'piece-author';
+                author.textContent = `— ${item.author}`;
+
+                const content = document.createElement('div');
+                content.className = 'piece-content';
+                content.textContent = item.content;
+
+                element.appendChild(title);
+                element.appendChild(author);
+                element.appendChild(content);
+            }
+
+            if (element) {
+                container.appendChild(element);
+            }
         });
-    });
-}
 
-// Show full poem in modal
-function showFullPoem(poemId) {
-    const poem = poemsData.find(p => p.id === poemId);
-    if (poem) {
-        fullPoemElement.textContent = poem.content;
-        poemModal.style.display = 'block';
+        // Start observing for scroll animations
+        setupScrollAnimations();
+        setupScrollPrompt();
+
+    } catch (error) {
+        console.error("Failed to load poems:", error);
+        document.getElementById('poems-container').innerHTML = '<p>Unable to load content. Please try again later.</p>';
     }
 }
 
-// Close modal
-closeModalBtn.addEventListener('click', function() {
-    poemModal.style.display = 'none';
-});
+// Setup scroll-triggered animations
+function setupScrollAnimations() {
+    function revealOnScroll() {
+        const pieces = document.querySelectorAll('.piece');
+        const windowHeight = window.innerHeight;
 
-// Close modal when clicking outside
-window.addEventListener('click', function(event) {
-    if (event.target === poemModal) {
-        poemModal.style.display = 'none';
+        pieces.forEach(piece => {
+            const pieceTop = piece.getBoundingClientRect().top;
+            if (pieceTop < windowHeight * 0.85) {
+                piece.classList.add('visible');
+            }
+        });
     }
-});
 
-// Search functionality
-searchInput.addEventListener('input', function() {
-    const searchTerm = this.value.toLowerCase();
-    const filteredPoems = poemsData.filter(poem => 
-        poem.title.toLowerCase().includes(searchTerm) || 
-        poem.author.toLowerCase().includes(searchTerm) ||
-        poem.content.toLowerCase().includes(searchTerm)
-    );
-    displayPoems(filteredPoems);
-});
+    window.addEventListener('load', revealOnScroll);
+    window.addEventListener('scroll', revealOnScroll);
+}
+
+// Hide scroll prompt after first scroll
+function setupScrollPrompt() {
+    window.addEventListener('scroll', function() {
+        const prompt = document.querySelector('.scroll-prompt');
+        if (window.scrollY > 100 && prompt) {
+            prompt.style.display = 'none';
+        }
+    }, { once: true });
+}
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', loadPoems);
