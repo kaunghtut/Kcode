@@ -1,4 +1,4 @@
-// Fetch poems and dividers from JSON and render them
+// Fetch poems from JSON and render them
 async function loadPoems() {
     try {
         const response = await fetch('poems.json');
@@ -6,14 +6,8 @@ async function loadPoems() {
         const container = document.getElementById('poems-container');
 
         poemsData.forEach(item => {
-            let element;
-
-            if (item.type === 'divider') {
-                element = document.createElement('div');
-                element.className = 'divider';
-                element.textContent = item.content;
-            } else if (item.type === 'poem') {
-                element = document.createElement('div');
+            if (item.type === 'poem') {
+                const element = document.createElement('div');
                 element.className = 'piece';
 
                 const title = document.createElement('h2');
@@ -31,9 +25,7 @@ async function loadPoems() {
                 element.appendChild(title);
                 element.appendChild(author);
                 element.appendChild(content);
-            }
 
-            if (element) {
                 container.appendChild(element);
             }
         });
