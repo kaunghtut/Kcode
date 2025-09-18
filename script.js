@@ -34,7 +34,7 @@ fetch('poems.json')
             if (isTruncated) {
                 const readMoreBtn = document.createElement('button');
                 readMoreBtn.className = 'read-more-btn';
-                readMoreBtn.textContent = 'Read More';
+                readMoreBtn.textContent = 'ဆက်ဖတ်မည်';
 
                 readMoreBtn.addEventListener('click', () => {
     document.getElementById('modalTitle').textContent = poem.title; // 👈 Set the title
@@ -75,6 +75,7 @@ document.addEventListener('keydown', (e) => {
         document.body.style.overflow = '';
     }
 });
+
 
 
 
