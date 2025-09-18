@@ -117,6 +117,3 @@ if (savedTheme) {
 themeSelect.addEventListener('change', (e) => {
     applyTheme(e.target.value);
 });
-
-
-
