@@ -13,7 +13,7 @@
 body.theme-dark {
     --bg-color: #121212;
     --text-color: #E6E6E6;
-    --modal-bg: #1E1E1E;
+    --modal-bg: #121212; /* Match main background */
     --header-footer-bg: rgba(30,30,30,0.8);
     --border-color: rgba(255,255,255,0.1);
 }
@@ -22,7 +22,7 @@ body.theme-dark {
 body.theme-book {
     --bg-color: #F8ECD4;
     --text-color: #5C4B33;
-    --modal-bg: #FDF6E9;
+    --modal-bg: #FDF6E9; /* Slightly lighter than main for contrast */
     --header-footer-bg: rgba(253,246,233,0.8);
     --border-color: rgba(92,75,51,0.2);
 }
@@ -31,7 +31,7 @@ body.theme-book {
 body.theme-blue-light {
     --bg-color: #FFF3E0;
     --text-color: #37474F;
-    --modal-bg: #FFE0B2;
+    --modal-bg: #FFE0B2; /* Warmer, softer modal background */
     --header-footer-bg: rgba(255,243,224,0.8);
     --border-color: rgba(55,71,79,0.2);
 }
@@ -43,6 +43,20 @@ body {
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* Modal Content — now explicitly styled */
+.modal-content {
+    background: var(--modal-bg);
+    color: var(--text-color);
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 50px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    position: relative;
+    animation: modalFadeIn 0.4s ease;
+    transition: all 0.3s ease;
+}
+
 /* Apply to containers */
 .container,
 .preview-block,
@@ -50,13 +64,6 @@ body {
 footer {
     background: var(--header-footer-bg);
     border-color: var(--border-color);
-    color: var(--text-color);
-    transition: all 0.3s ease;
-}
-
-/* Modal */
-.modal-content {
-    background: var(--modal-bg);
     color: var(--text-color);
     transition: all 0.3s ease;
 }
@@ -311,6 +318,7 @@ footer {
     .modal-full-text { font-size: 1.15rem; }
     .modal-close { font-size: 28px; top: 15px; right: 15px; }
 }
+
 
 
 
