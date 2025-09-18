@@ -1,3 +1,115 @@
+/* ===== THEME STYLES ===== */
+
+/* Default: Light Theme */
+:root {
+    --bg-color: #F5F5F5;
+    --text-color: #333333;
+    --modal-bg: #FFFFFF;
+    --header-footer-bg: rgba(255,255,255,0.7);
+    --border-color: rgba(0,0,0,0.1);
+}
+
+/* Dark Theme */
+body.theme-dark {
+    --bg-color: #121212;
+    --text-color: #E6E6E6;
+    --modal-bg: #1E1E1E;
+    --header-footer-bg: rgba(30,30,30,0.8);
+    --border-color: rgba(255,255,255,0.1);
+}
+
+/* Book Theme */
+body.theme-book {
+    --bg-color: #F8ECD4;
+    --text-color: #5C4B33;
+    --modal-bg: #FDF6E9;
+    --header-footer-bg: rgba(253,246,233,0.8);
+    --border-color: rgba(92,75,51,0.2);
+}
+
+/* Blue Light Filter Theme */
+body.theme-blue-light {
+    --bg-color: #FFF3E0;
+    --text-color: #37474F;
+    --modal-bg: #FFE0B2;
+    --header-footer-bg: rgba(255,243,224,0.8);
+    --border-color: rgba(55,71,79,0.2);
+}
+
+/* Apply theme variables */
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Apply to containers */
+.container,
+.preview-block,
+.site-header,
+footer {
+    background: var(--header-footer-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+/* Modal */
+.modal-content {
+    background: var(--modal-bg);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+/* Text elements */
+.poem-title,
+.modal-title,
+.preview-text,
+.modal-full-text,
+.read-more-btn {
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+/* Buttons */
+.read-more-btn {
+    border-color: var(--text-color);
+}
+
+.read-more-btn:hover {
+    background: var(--text-color);
+    color: var(--bg-color);
+}
+
+/* Theme Switcher Styling */
+.theme-switcher {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.theme-switcher label {
+    font-size: 0.95rem;
+    margin-right: 10px;
+    color: var(--text-color);
+}
+
+#theme-select {
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: Georgia, serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#theme-select:hover {
+    border-color: var(--text-color);
+}
+
+
+
 
 /* Site Header */
 .poem-title {
@@ -199,6 +311,7 @@ footer {
     .modal-full-text { font-size: 1.15rem; }
     .modal-close { font-size: 28px; top: 15px; right: 15px; }
 }
+
 
 
 
