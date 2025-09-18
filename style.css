@@ -32,7 +32,7 @@ body {
     font-family: 'Georgia', serif;
     line-height: 1.8;
     color: #222;
-    background: #faf9f6;
+    background: #F8ECD4;
     padding: 0; /* 👈 Reset padding — header now handles spacing */
 }
 
@@ -170,6 +170,7 @@ footer {
     .modal-full-text { font-size: 1.15rem; }
     .modal-close { font-size: 28px; top: 15px; right: 15px; }
 }
+
 
 
 
