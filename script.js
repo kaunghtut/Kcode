@@ -32,10 +32,11 @@ fetch('poems.json')
                 readMoreBtn.textContent = 'Read More';
 
                 readMoreBtn.addEventListener('click', () => {
-                    modalFullText.textContent = poem.content;
-                    modal.style.display = 'block';
-                    document.body.style.overflow = 'hidden'; // Prevent background scroll
-                });
+    document.getElementById('modalTitle').textContent = poem.title; // 👈 Set the title
+    modalFullText.textContent = poem.content;
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevent background scroll
+});
 
                 block.appendChild(readMoreBtn);
             }
@@ -69,3 +70,4 @@ document.addEventListener('keydown', (e) => {
         document.body.style.overflow = '';
     }
 });
+
