@@ -1,5 +1,15 @@
 
 /* Site Header */
+.modal-title {
+    font-size: 1.8rem;
+    font-weight: normal;
+    text-align: center;
+    margin: 0 0 30px;
+    font-style: italic;
+    color: #222;
+    font-family: 'Georgia', serif;
+}
+
 .site-header {
     text-align: center;
     padding: 60px 20px 40px;
@@ -178,6 +188,7 @@ footer {
     .modal-full-text { font-size: 1.15rem; }
     .modal-close { font-size: 28px; top: 15px; right: 15px; }
 }
+
 
 
 
