@@ -14,7 +14,12 @@ fetch('poems.json')
         poems.forEach(poem => {
             const block = document.createElement('div');
             block.className = 'preview-block';
-            const lines = poem.title.split('\n');
+               // ✅ CREATE AND APPEND TITLE
+    const titleElement = document.createElement('h3');
+    titleElement.className = 'poem-title';
+    titleElement.textContent = poem.title;
+    block.appendChild(titleElement);
+            
             const lines = poem.content.split('\n');
             const previewContent = lines.slice(0, PREVIEW_LINES).join('\n');
             const isTruncated = lines.length > PREVIEW_LINES;
@@ -70,6 +75,7 @@ document.addEventListener('keydown', (e) => {
         document.body.style.overflow = '';
     }
 });
+
 
 
 
