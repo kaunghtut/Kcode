@@ -148,7 +148,7 @@ body {
     line-height: 1.9;
     white-space: pre-line;
     text-align: left;
-    color: #111;
+    color: #5C4B33;
 }
 
 /* Footer */
@@ -178,6 +178,7 @@ footer {
     .modal-full-text { font-size: 1.15rem; }
     .modal-close { font-size: 28px; top: 15px; right: 15px; }
 }
+
 
 
 
