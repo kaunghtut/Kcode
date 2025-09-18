@@ -1,3 +1,49 @@
+
+/* Site Header */
+.site-header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.site-header h1 {
+    font-family: 'Georgia', serif;
+    font-size: 2.8rem;
+    font-weight: normal;
+    letter-spacing: 1px;
+    color: #222;
+    margin: 0 0 15px;
+}
+
+.site-header p {
+    font-family: 'Georgia', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #777;
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Adjust body padding to avoid extra space at top */
+body {
+    font-family: 'Georgia', serif;
+    line-height: 1.8;
+    color: #222;
+    background: #fcfaf7;
+    padding: 0; /* 👈 Reset padding — header now handles spacing */
+}
+
+/* Optional: Reduce top padding on container since header adds space */
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding-top: 0; /* 👈 Avoid double spacing */
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -124,3 +170,4 @@ footer {
     .modal-full-text { font-size: 1.15rem; }
     .modal-close { font-size: 28px; top: 15px; right: 15px; }
 }
+
