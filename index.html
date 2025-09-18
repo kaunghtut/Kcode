@@ -7,13 +7,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="scroll-prompt">Scroll to begin</div>
     <div class="container" id="poems-container">
-        <!-- Poems will be injected here by JavaScript -->
+        <!-- Preview blocks will be injected here by JavaScript -->
     </div>
+
+    <!-- Modal for Full Text -->
+    <div id="modalOverlay" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div id="modalFullText" class="modal-full-text"></div>
+        </div>
+    </div>
+
     <footer>
-        Lizzy — where words echo longer than footsteps.<br>
-        Scroll back up to begin again.
+        Lizzy — where words echo longer than footsteps.
     </footer>
 
     <script src="script.js"></script>
