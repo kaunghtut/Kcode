@@ -1,72 +1,71 @@
-// Fetch poems from JSON and render them
-async function loadPoems() {
-    try {
-        const response = await fetch('poems.json');
-        const poemsData = await response.json();
-        const container = document.getElementById('poems-container');
+// DOM Elements
+const container = document.getElementById('poems-container');
+const modal = document.getElementById('modalOverlay');
+const modalFullText = document.getElementById('modalFullText');
+const closeModalBtn = document.querySelector('.modal-close');
 
-        poemsData.forEach(item => {
-            if (item.type === 'poem') {
-                const element = document.createElement('div');
-                element.className = 'piece';
+// Number of lines to show in preview
+const PREVIEW_LINES = 4;
 
-                const title = document.createElement('h2');
-                title.className = 'piece-title';
-                title.textContent = item.title;
+// Load poems from JSON and render
+fetch('poems.json')
+    .then(response => response.json())
+    .then(poems => {
+        poems.forEach(poem => {
+            const block = document.createElement('div');
+            block.className = 'preview-block';
 
-                const author = document.createElement('span');
-                author.className = 'piece-author';
-                author.textContent = `— ${item.author}`;
+            const lines = poem.content.split('\n');
+            const previewContent = lines.slice(0, PREVIEW_LINES).join('\n');
+            const isTruncated = lines.length > PREVIEW_LINES;
 
-                const content = document.createElement('div');
-                content.className = 'piece-content';
-                content.textContent = item.content;
+            const previewText = document.createElement('div');
+            previewText.className = 'preview-text';
+            previewText.textContent = previewContent;
 
-                element.appendChild(title);
-                element.appendChild(author);
-                element.appendChild(content);
+            block.appendChild(previewText);
 
-                container.appendChild(element);
+            // Only add "Read More" if content is truncated
+            if (isTruncated) {
+                const readMoreBtn = document.createElement('button');
+                readMoreBtn.className = 'read-more-btn';
+                readMoreBtn.textContent = 'Read More';
+
+                readMoreBtn.addEventListener('click', () => {
+                    modalFullText.textContent = poem.content;
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden'; // Prevent background scroll
+                });
+
+                block.appendChild(readMoreBtn);
             }
+
+            container.appendChild(block);
         });
+    })
+    .catch(error => {
+        console.error('Failed to load poems:', error);
+        container.innerHTML = '<p>Unable to load content. Please try again later.</p>';
+    });
 
-        // Start observing for scroll animations
-        setupScrollAnimations();
-        setupScrollPrompt();
+// Close modal with × button
+closeModalBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+    document.body.style.overflow = ''; // Re-enable scroll
+});
 
-    } catch (error) {
-        console.error("Failed to load poems:", error);
-        document.getElementById('poems-container').innerHTML = '<p>Unable to load content. Please try again later.</p>';
+// Close modal if user clicks outside content
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
     }
-}
+});
 
-// Setup scroll-triggered animations
-function setupScrollAnimations() {
-    function revealOnScroll() {
-        const pieces = document.querySelectorAll('.piece');
-        const windowHeight = window.innerHeight;
-
-        pieces.forEach(piece => {
-            const pieceTop = piece.getBoundingClientRect().top;
-            if (pieceTop < windowHeight * 0.85) {
-                piece.classList.add('visible');
-            }
-        });
+// Optional: Close with ESC key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.style.display === 'block') {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
     }
-
-    window.addEventListener('load', revealOnScroll);
-    window.addEventListener('scroll', revealOnScroll);
-}
-
-// Hide scroll prompt after first scroll
-function setupScrollPrompt() {
-    window.addEventListener('scroll', function() {
-        const prompt = document.querySelector('.scroll-prompt');
-        if (window.scrollY > 100 && prompt) {
-            prompt.style.display = 'none';
-        }
-    }, { once: true });
-}
-
-// Initialize the app
-document.addEventListener('DOMContentLoaded', loadPoems);
+});
