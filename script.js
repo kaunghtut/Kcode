@@ -80,3 +80,43 @@ document.addEventListener('keydown', (e) => {
 
 
 
+// =============
+// THEME SWITCHER
+// =============
+
+const themeSelect = document.getElementById('theme-select');
+const body = document.body;
+
+// Apply saved theme or default
+function applyTheme(theme) {
+    // Remove all theme classes
+    body.classList.remove('theme-dark', 'theme-book', 'theme-blue-light');
+
+    // Add selected theme class
+    if (theme === 'dark') {
+        body.classList.add('theme-dark');
+    } else if (theme === 'book') {
+        body.classList.add('theme-book');
+    } else if (theme === 'blue-light') {
+        body.classList.add('theme-blue-light');
+    }
+    // 'light' is default — no class needed
+
+    // Save to localStorage
+    localStorage.setItem('lizzy-theme', theme);
+}
+
+// Load saved theme
+const savedTheme = localStorage.getItem('lizzy-theme');
+if (savedTheme) {
+    themeSelect.value = savedTheme;
+    applyTheme(savedTheme);
+}
+
+// Listen for changes
+themeSelect.addEventListener('change', (e) => {
+    applyTheme(e.target.value);
+});
+
+
+
