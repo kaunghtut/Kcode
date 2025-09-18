@@ -84,7 +84,7 @@ body {
     display: inline-block;
     padding: 8px 25px;
     background: transparent;
-    color: #555;
+    color: #F8ECD4;
     border: 1px solid #aaa;
     border-radius: 20px;
     font-size: 0.95rem;
@@ -170,6 +170,7 @@ footer {
     .modal-full-text { font-size: 1.15rem; }
     .modal-close { font-size: 28px; top: 15px; right: 15px; }
 }
+
 
 
 
