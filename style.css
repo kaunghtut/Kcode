@@ -6,98 +6,121 @@
 
 body {
     font-family: 'Georgia', serif;
-    line-height: 1.9;
+    line-height: 1.8;
     color: #222;
     background: #fcfaf7;
-    padding: 80px 20px 120px;
-    cursor: text;
+    padding: 60px 20px 100px;
 }
 
 .container {
-    max-width: 760px;
+    max-width: 700px;
     margin: 0 auto;
 }
 
-/* Scroll Prompt */
-.scroll-prompt {
-    position: fixed;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 14px;
-    color: #888;
-    letter-spacing: 1px;
-    animation: pulse 2s infinite;
-    z-index: 100;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
-}
-
-/* Literary Piece */
-.piece {
-    opacity: 0;
-    transform: translateY(60px);
-    transition: all 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
-    margin: 100px 0;
-    padding: 40px;
-    background: rgba(255,255,255,0.65);
-    backdrop-filter: blur(5px);
+/* Preview Block */
+.preview-block {
+    margin: 50px 0;
+    padding: 30px;
+    background: rgba(255,255,255,0.6);
     border-radius: 8px;
-    box-shadow: 0 5px 30px rgba(0,0,0,0.03);
+    box-shadow: 0 3px 15px rgba(0,0,0,0.03);
+    cursor: default;
 }
 
-.piece.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.piece-title {
-    font-size: 1.8rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-weight: normal;
-    color: #333;
-    font-style: italic;
-    letter-spacing: 0.5px;
-}
-
-.piece-author {
-    display: block;
-    text-align: center;
-    font-style: italic;
-    color: #777;
-    margin-bottom: 2.5rem;
-    font-size: 1.1rem;
-}
-
-.piece-content {
+.preview-text {
     font-size: 1.15rem;
     white-space: pre-line;
-    text-align: left;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.read-more-btn {
+    display: inline-block;
+    padding: 8px 25px;
+    background: transparent;
+    color: #555;
+    border: 1px solid #aaa;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.read-more-btn:hover {
+    background: #555;
+    color: #fff;
+    border-color: #555;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.88);
+    z-index: 1000;
+    padding: 30px;
+    overflow-y: auto;
+    cursor: default;
+}
+
+.modal-content {
+    background: #fcfaf7;
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 50px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
     position: relative;
+    animation: modalFadeIn 0.4s ease;
 }
 
-.piece-content p {
-    margin: 1.2rem 0;
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Footer Whisper */
+.modal-close {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    font-size: 32px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.modal-close:hover {
+    color: #fff;
+}
+
+.modal-full-text {
+    font-size: 1.3rem;
+    line-height: 1.9;
+    white-space: pre-line;
+    text-align: left;
+    color: #111;
+}
+
+/* Footer */
 footer {
     text-align: center;
     padding: 60px 20px 30px;
     color: #aaa;
     font-size: 0.9rem;
     font-style: italic;
-    margin-top: 80px;
+    margin-top: 40px;
     border-top: 1px dashed #eee;
 }
 
 /* Responsive */
 @media (max-width: 600px) {
-    body { padding: 60px 15px 80px; }
-    .piece { padding: 30px 20px; }
-    .piece-title { font-size: 1.5rem; }
+    body { padding: 40px 15px 80px; }
+    .preview-block { padding: 25px; }
+    .modal-content { padding: 30px 20px; margin: 60px auto; }
+    .modal-full-text { font-size: 1.15rem; }
+    .modal-close { font-size: 28px; top: 15px; right: 15px; }
 }
