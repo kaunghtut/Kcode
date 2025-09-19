@@ -16,6 +16,7 @@ body.theme-dark {
     --modal-bg: #1E1E1E;
     --surface-bg: rgba(30,30,30,0.8);
     --border-color: rgba(230,230,230,0.15);
+    background-image: none; /* Clean dark void */
 }
 
 /* Book Theme */
@@ -158,9 +159,14 @@ body::-webkit-scrollbar-track {
 body {
     font-family: 'Georgia', serif;
     line-height: 1.8;
-    color: #222;
-    background: #F5F5F5;
-    padding: 0; /* 👈 Reset padding — header now handles spacing */
+    background-color: var(--bg-color);
+    background-image: url('bg-paper.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: 200px 200px;
+    color: var(--text-color);
+    padding: 0;
+    transition: background 0.35s ease, color 0.35s ease;
 }
 
 /* Optional: Reduce top padding on container since header adds space */
@@ -305,6 +311,7 @@ footer {
     .modal-full-text { font-size: 1.15rem; }
     .modal-close { font-size: 28px; top: 15px; right: 15px; }
 }
+
 
 
 
