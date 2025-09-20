@@ -223,6 +223,7 @@ body {
     font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-right: 8px;
 }
 
 .read-more-btn:hover {
@@ -359,6 +360,7 @@ body.theme-blue-light .share-btn:hover {
 .share-btn svg {
     transition: all 0.3s ease;
 }
+
 
 
 
