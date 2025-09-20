@@ -32,7 +32,7 @@ fetch('poems.json')
 
             // Only add "Read More" if content is truncated
             if (isTruncated) {
-    // Read More Button
+    // Read More Button (unchanged)
     const readMoreBtn = document.createElement('button');
     readMoreBtn.className = 'read-more-btn';
     readMoreBtn.textContent = 'Read More';
@@ -46,32 +46,32 @@ fetch('poems.json')
 
     block.appendChild(readMoreBtn);
 
-    // === SHARE BUTTON ===
-    const shareBtn = document.createElement('button');
-    shareBtn.className = 'share-btn';
-    shareBtn.title = `Share "${poem.title}" on Facebook`;
-    shareBtn.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-            <line x1="9" y1="9" x2="9.01" y2="9"></line>
-            <line x1="15" y1="9" x2="15.01" y2="9"></line>
-            <path d="M12 6v2"></path>
-            <path d="M9 17l3-3 3 3"></path>
+    // === FACEBOOK SHARE BUTTON ===
+    const fbShareBtn = document.createElement('button');
+    fbShareBtn.className = 'fb-share-btn';
+    fbShareBtn.title = `Share "${poem.title}" on Facebook`;
+
+    // Create icon + text
+    fbShareBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/>
         </svg>
+        Share
     `;
 
-    // Generate Facebook Share URL
-    const shareTitle = encodeURIComponent(poem.title);
-    const shareText = encodeURIComponent(poem.content.split('\n')[0]); // First line
-    const shareUrl = encodeURIComponent(window.location.href);
-    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareTitle}: ${shareText}`;
+    // Generate share text: Title + First 2 lines
+    const lines = poem.content.split('\n');
+    const previewLines = lines.slice(0, 2).join(' ').substring(0, 150); // Max 150 chars
+    const shareText = `${poem.title}: ${previewLines}...`;
 
-    shareBtn.addEventListener('click', () => {
-        window.open(facebookShareUrl, 'Share on Facebook', 'width=600,height=400');
+    const shareUrl = encodeURIComponent(window.location.href);
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${encodeURIComponent(shareText)}`;
+
+    fbShareBtn.addEventListener('click', () => {
+        window.open(facebookShareUrl, 'facebook-share-dialog', 'width=600,height=400');
     });
 
-    block.appendChild(shareBtn);
+    block.appendChild(fbShareBtn);
 }
 
             container.appendChild(block);
@@ -144,4 +144,5 @@ if (savedTheme) {
 themeSelect.addEventListener('change', (e) => {
     applyTheme(e.target.value);
 });
+
 
