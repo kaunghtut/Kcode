@@ -67,12 +67,29 @@ fetch('poems.json')
     const shareUrl = encodeURIComponent(window.location.href);
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${encodeURIComponent(shareText)}`;
 
-    fbShareBtn.addEventListener('click', () => {
-        window.open(facebookShareUrl, 'facebook-share-dialog', 'width=600,height=400');
-    });
+fbShareBtn.addEventListener('click', () => {
+    // Dynamically update Open Graph tags
+    const ogTitle = document.getElementById('og-title');
+    const ogDescription = document.getElementById('og-description');
+    const ogUrl = document.getElementById('og-url');
 
-    block.appendChild(fbShareBtn);
-}
+    // Set dynamic OG tags
+    ogTitle.textContent = poem.title;
+    ogDescription.textContent = shareText; // Your custom preview text
+    ogUrl.setAttribute('content', window.location.href);
+
+    // Optional: Set a default image if you have one
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    if (ogImage) {
+        ogImage.setAttribute('content', 'https://yourdomain.com/images/lizzy-share.jpg'); // Replace with actual image URL
+    }
+
+    // Wait a tiny moment to ensure DOM updates, then open share dialog
+    setTimeout(() => {
+        const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+        window.open(facebookShareUrl, 'facebook-share-dialog', 'width=600,height=400');
+    }, 100);
+});
 
             container.appendChild(block);
         });
@@ -144,5 +161,6 @@ if (savedTheme) {
 themeSelect.addEventListener('change', (e) => {
     applyTheme(e.target.value);
 });
+
 
 
