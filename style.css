@@ -222,7 +222,7 @@ body {
     font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-right: 8px; /* Space between buttons */
+
 }
 
 .read-more-btn:hover {
@@ -317,52 +317,7 @@ footer {
 
 
 
-/* ===== FACEBOOK SHARE BUTTON ===== */
 
-.fb-share-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background-color: #1877F2; /* Facebook blue */
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-family: 'Georgia', serif;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-left: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.fb-share-btn:hover {
-    background-color: #166FE5;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-.fb-share-btn:active {
-    transform: translateY(0);
-}
-
-.fb-share-btn svg {
-    width: 16px;
-    height: 16px;
-}
-
-/* Theme Adaptation — Keep blue for recognition, but soften in dark/book modes */
-body.theme-dark .fb-share-btn,
-body.theme-book .fb-share-btn,
-body.theme-blue-light .fb-share-btn {
-    background-color: #1877F2;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-body.theme-dark .fb-share-btn:hover {
-    background-color: #166FE5;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
 
 
 
