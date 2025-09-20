@@ -316,52 +316,54 @@ footer {
 
 
 
-/* ===== SHARE BUTTON ===== */
 
-.share-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    margin-left: 12px;
-    border-radius: 50%;
-    transition: all 0.3s ease;
+
+/* ===== FACEBOOK SHARE BUTTON ===== */
+
+.fb-share-btn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    color: var(--text-color);
-    opacity: 0.7;
-}
-
-.share-btn:hover {
-    opacity: 1;
-    background: rgba(0,0,0,0.05);
-    transform: scale(1.1);
-}
-
-.share-btn svg {
-    width: 18px;
-    height: 18px;
-}
-
-/* Dark mode — make icon brighter on hover */
-body.theme-dark .share-btn:hover {
-    background: rgba(255,255,255,0.1);
-}
-
-/* Book & Blue themes — subtle warmth */
-body.theme-book .share-btn:hover,
-body.theme-blue-light .share-btn:hover {
-    background: rgba(92,75,51,0.1);
-}
-
-/* Optional: Add to theme transitions */
-.share-btn,
-.share-btn svg {
+    gap: 6px;
+    background-color: #1877F2; /* Facebook blue */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    cursor: pointer;
     transition: all 0.3s ease;
+    margin-left: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.fb-share-btn:hover {
+    background-color: #166FE5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
 
+.fb-share-btn:active {
+    transform: translateY(0);
+}
+
+.fb-share-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Theme Adaptation — Keep blue for recognition, but soften in dark/book modes */
+body.theme-dark .fb-share-btn,
+body.theme-book .fb-share-btn,
+body.theme-blue-light .fb-share-btn {
+    background-color: #1877F2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+body.theme-dark .fb-share-btn:hover {
+    background-color: #166FE5;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
 
 
 
