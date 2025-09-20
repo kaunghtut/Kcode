@@ -32,7 +32,6 @@ fetch('poems.json')
 
             // Only add "Read More" if content is truncated
             if (isTruncated) {
-    // Read More Button (unchanged)
     const readMoreBtn = document.createElement('button');
     readMoreBtn.className = 'read-more-btn';
     readMoreBtn.textContent = 'Read More';
@@ -45,51 +44,9 @@ fetch('poems.json')
     });
 
     block.appendChild(readMoreBtn);
+}
 
-    // === FACEBOOK SHARE BUTTON ===
-    const fbShareBtn = document.createElement('button');
-    fbShareBtn.className = 'fb-share-btn';
-    fbShareBtn.title = `Share "${poem.title}" on Facebook`;
-
-    // Create icon + text
-    fbShareBtn.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/>
-        </svg>
-        Share
-    `;
-
-    // Generate share text: Title + First 2 lines
-    const lines = poem.content.split('\n');
-    const previewLines = lines.slice(0, 2).join(' ').substring(0, 150); // Max 150 chars
-    const shareText = `${poem.title}: ${previewLines}...`;
-
-    const shareUrl = encodeURIComponent(window.location.href);
-    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${encodeURIComponent(shareText)}`;
-
-fbShareBtn.addEventListener('click', () => {
-    // Dynamically update Open Graph tags
-    const ogTitle = document.getElementById('og-title');
-    const ogDescription = document.getElementById('og-description');
-    const ogUrl = document.getElementById('og-url');
-
-    // Set dynamic OG tags
-    ogTitle.textContent = poem.title;
-    ogDescription.textContent = shareText; // Your custom preview text
-    ogUrl.setAttribute('content', window.location.href);
-
-    // Optional: Set a default image if you have one
-    const ogImage = document.querySelector('meta[property="og:image"]');
-    if (ogImage) {
-        ogImage.setAttribute('content', 'https://yourdomain.com/images/lizzy-share.jpg'); // Replace with actual image URL
-    }
-
-    // Wait a tiny moment to ensure DOM updates, then open share dialog
-    setTimeout(() => {
-        const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
-        window.open(facebookShareUrl, 'facebook-share-dialog', 'width=600,height=400');
-    }, 100);
-});
+    
 
             container.appendChild(block);
         });
@@ -161,6 +118,7 @@ if (savedTheme) {
 themeSelect.addEventListener('change', (e) => {
     applyTheme(e.target.value);
 });
+
 
 
 
