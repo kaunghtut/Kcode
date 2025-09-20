@@ -214,15 +214,16 @@ body {
 }
 
 .read-more-btn {
+    display: inline-block;
     padding: 8px 25px;
     background: transparent;
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
+    color: #555;
+    border: 1px solid #aaa;
     border-radius: 20px;
     font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.3s ease;
-
+    margin-right: 8px;
 }
 
 .read-more-btn:hover {
@@ -311,6 +312,7 @@ footer {
     .modal-full-text { font-size: 1.15rem; }
     .modal-close { font-size: 28px; top: 15px; right: 15px; }
 }
+
 
 
 
