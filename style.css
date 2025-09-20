@@ -315,6 +315,54 @@ footer {
 
 
 
+/* ===== SHARE BUTTON ===== */
+
+.share-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: 12px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+.share-btn:hover {
+    opacity: 1;
+    background: rgba(0,0,0,0.05);
+    transform: scale(1.1);
+}
+
+.share-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Dark mode — make icon brighter on hover */
+body.theme-dark .share-btn:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* Book & Blue themes — subtle warmth */
+body.theme-book .share-btn:hover,
+body.theme-blue-light .share-btn:hover {
+    background: rgba(92,75,51,0.1);
+}
+
+/* Optional: Add to theme transitions */
+.share-btn,
+.share-btn svg {
+    transition: all 0.3s ease;
+}
+
+
+
+
 
 
 
